@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entities;
 
+use App\Domain\Entity;
 use App\Domain\Exceptions\InvalidProjectParametersException;
 use DateTime;
 
@@ -13,8 +14,9 @@ use DateTime;
  * Para as entidades de domínio, não importa como elas são armazenadas no banco. A única coisa que importa
  * é que a entidade sempre esteja em um estado válido, e que as regras de negócio não vazem para a camada de aplicação.
  */
-class Project
+class Project extends Entity
 {
+    private ?int $id;
     private string $title;
     private string $description;
     private DateTime $dueDate;
@@ -28,12 +30,22 @@ class Project
     private function __construct()
     {}
 
-    public static function build(string $title, string $description, DateTime $dueDate)
+    public static function build(string $title, string $description, DateTime $dueDate, ?int $id = null)
     {
-        return (new Project)
+        // Se não possui ID, significa que um novo projeto está sendo criado
+        // Neste caso não podemos permitir que a data de conclusão seja antes de "agora"
+        if (!$id && $dueDate < new DateTime) {
+            throw new InvalidProjectParametersException("A data de conclusão já passou");
+        }
+
+        $project = (new Project)
             ->setTitle($title)
             ->setDescription($description)
             ->setDueDate($dueDate);
+
+        // ID's não podem ser alterados, por isso não criamos um setter para ele
+        $project->id = $id;
+        return $project;
     }
 
     public function setTitle(string $title)
@@ -60,6 +72,11 @@ class Project
         return $this;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getTitle()
     {
         return $this->title;
@@ -73,5 +90,15 @@ class Project
     public function getDueDate()
     {
         return $this->dueDate;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'dueDate' => $this->dueDate
+        ];
     }
 }

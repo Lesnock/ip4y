@@ -1,7 +1,7 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.3
+            context: ./docker/8.3
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -21,6 +21,20 @@ services:
             - '.:/var/www/html'
         networks:
             - sail
+    sql_server:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+            - '${DB_PORT:-1433}:1433'
+        environment:
+            MSSQL_SA_PASSWORD: '${DB_PASSWORD:-MyP@ssw0rd}'
+            MSSQL_DATABASE: '${DB_DATABASE:-IP4Y}'
+            ACCEPT_EULA: 'Y'
+        volumes:
+            - ./docker/volumes/sqlserver:/var/opt/mssql
+            - ./docker/sqlserver-entrypoint:/usr/config
+        networks:
+            - sail
+        entrypoint: ["./usr/config/sqlserver-entrypoint.sh"]
 networks:
     sail:
         driver: bridge

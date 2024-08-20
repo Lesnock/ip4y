@@ -25,6 +25,26 @@ class CreateProjectInputDataBuilder
         return new static;
     }
 
+    public function withInvalidTitle()
+    {
+        $this->inputData->title = '';
+        return $this;
+    }
+
+    public function withInvalidDescription()
+    {
+        $this->inputData->description = '';
+        return $this;
+    }
+
+    public function withInvalidDueDate()
+    {
+        $yesterday = new DateTime();
+        $yesterday->modify('-1 day');
+        $this->inputData->dueDate = $yesterday->format('Y-m-d h:i:s');
+        return $this;
+    }
+
     public function build(): InputData
     {
         return $this->inputData;

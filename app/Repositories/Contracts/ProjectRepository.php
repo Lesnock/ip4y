@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Repositories;
+namespace App\Repositories\Contracts;
 
 use App\Domain\Entities\Project;
 

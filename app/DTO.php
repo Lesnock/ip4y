@@ -4,7 +4,6 @@ namespace App;
 
 use App\Utils\StringUtils;
 use ReflectionObject;
-use ReflectionProperty;
 
 /**
  * DTO
@@ -23,15 +22,13 @@ abstract class DTO
      */
     public function __construct(array $data)
     {
-        $publicProps = (new ReflectionObject($this))
-            ->getProperties(ReflectionProperty::IS_PUBLIC);
+        $publicProps = (new ReflectionObject($this))->getProperties();
 
         $allowedProps = array_map(fn ($prop) => $prop->getName(), $publicProps);
 
         foreach ($data as $name => $value) {
-            $camelCaseName = StringUtils::snakeCaseToCamelCase($name);
-            if (in_array($camelCaseName, $allowedProps)) {
-                $this->$camelCaseName = $value;
+            if (in_array($name, $allowedProps)) {
+                $this->$name = $value;
             }
         }
     }
@@ -48,8 +45,7 @@ abstract class DTO
 
         $array = [];
         foreach ($props as $name => $value) {
-            $snakeCaseName = StringUtils::camelCaseToSnakeCase($name);
-            $array[$snakeCaseName] = $value;
+            $array[$name] = $value;
         }
 
         return $array;

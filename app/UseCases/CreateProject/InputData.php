@@ -6,7 +6,7 @@ use App\DTO;
 
 class InputData extends DTO
 {
-    public readonly string $title;
-    public readonly string $description;
-    public readonly string $dueDate;
+    public string $title;
+    public string $description;
+    public string $dueDate;
 }

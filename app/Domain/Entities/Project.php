@@ -3,7 +3,7 @@
 namespace App\Domain\Entities;
 
 use App\Domain\Entity;
-use App\Domain\Exceptions\InvalidProjectParametersException;
+use App\Domain\Exceptions\EntityBuildValidationException;
 use DateTime;
 
 /**
@@ -35,7 +35,7 @@ class Project extends Entity
         // Se não possui ID, significa que um novo projeto está sendo criado
         // Neste caso não podemos permitir que a data de conclusão seja antes de "agora"
         if (!$id && $dueDate < new DateTime) {
-            throw new InvalidProjectParametersException("A data de conclusão já passou");
+            throw new EntityBuildValidationException("A data de conclusão já passou");
         }
 
         $project = (new Project)
@@ -51,7 +51,7 @@ class Project extends Entity
     public function setTitle(string $title)
     {
         if (empty($title)) {
-            throw new InvalidProjectParametersException("O título do projeto deve conter pelo menos 1 caractere");
+            throw new EntityBuildValidationException("O título do projeto deve conter pelo menos 1 caractere");
         }
         $this->title = $title;
         return $this;
@@ -60,7 +60,7 @@ class Project extends Entity
     public function setDescription(string $description)
     {
         if (empty($description)) {
-            throw new InvalidProjectParametersException("O título do projeto deve conter pelo menos 1 caractere");
+            throw new EntityBuildValidationException("O título do projeto deve conter pelo menos 1 caractere");
         }
         $this->description = $description;
         return $this;

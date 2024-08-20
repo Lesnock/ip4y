@@ -28,6 +28,7 @@ services:
         environment:
             MSSQL_SA_PASSWORD: '${DB_PASSWORD:-MyP@ssw0rd}'
             MSSQL_DATABASE: '${DB_DATABASE:-IP4Y}'
+            MSSQL_TESTING_DATABASE: '${DB_TESTING_DATABASE:-IP4Y_TESTING}'
             ACCEPT_EULA: 'Y'
         volumes:
             - ./docker/volumes/sqlserver:/var/opt/mssql

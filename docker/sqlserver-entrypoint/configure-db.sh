@@ -18,3 +18,4 @@ done
 
 # Run the setup script to create the DB and the schema in the DB
 /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P $MSSQL_SA_PASSWORD -d master -C -Q "CREATE DATABASE $MSSQL_DATABASE";
+/opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P $MSSQL_SA_PASSWORD -d master -C -Q "CREATE DATABASE $MSSQL_TESTING_DATABASE";

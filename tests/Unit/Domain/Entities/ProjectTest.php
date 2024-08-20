@@ -3,7 +3,7 @@
 namespace Tests\Unit\Domain\Entities;
 
 use App\Domain\Entities\Project;
-use App\Domain\Exceptions\InvalidProjectParametersException;
+use App\Domain\Exceptions\EntityBuildValidationException;
 use Tests\TestCase;
 use DateTime;
 
@@ -25,19 +25,19 @@ class ProjectTest extends TestCase
 
     public function testProjectIsNotCreatedWithEmptyTitle()
     {
-        $this->expectException(InvalidProjectParametersException::class);
+        $this->expectException(EntityBuildValidationException::class);
         Project::build('', 'description', new DateTime());
     }
 
     public function testProjectIsNotCreatedWithEmptyDescription()
     {
-        $this->expectException(InvalidProjectParametersException::class);
+        $this->expectException(EntityBuildValidationException::class);
         Project::build('title', '', new DateTime());
     }
 
     public function testProjectCannotBeCreatedWithPassedDueDate()
     {
-        $this->expectException(InvalidProjectParametersException::class);
+        $this->expectException(EntityBuildValidationException::class);
         $yesterday = new DateTime;
         $yesterday->modify('-1 day');
         Project::build('title', '', $yesterday, null);

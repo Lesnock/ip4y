@@ -19,7 +19,5 @@
         "vue": "^3.4.0",
         "vue-tsc": "^2.0.24"
     },
-    "dependencies": {
-        "flowbite": "^2.5.1"
-    }
+    "dependencies": {}
 }

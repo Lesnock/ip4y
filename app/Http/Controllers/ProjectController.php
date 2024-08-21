@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;
 use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\CreateProject\InputData as CreateProjectInputData;
+use App\UseCases\UpdateProject\InputData as UpdateProjectInputData;
+use App\UseCases\UpdateProject\UpdateProject;
 use App\Utils\ControllerExceptionHandler;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
@@ -65,9 +67,17 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProjectRequest $request, UpdateProject $updateProject, string $id)
     {
-        //
+        try {
+            $updateProject->execute($id, new UpdateProjectInputData($request->validated()));
+
+            return response()->json([
+                'status' => true,
+            ], Response::HTTP_OK); // 200
+        } catch (ClientException | ServerException $error) {
+            return ControllerExceptionHandler::handle($error);
+        }
     }
 
     /**

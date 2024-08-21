@@ -5,21 +5,20 @@ namespace Tests\Unit\Controllers;
 use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;
 use App\Models\User;
-use App\Repositories\Contracts\ProjectRepository;
 use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\CreateProject\OutputData;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use DateTime;
 
-class ProjectControllerStoreTest extends TestCase
+class ProjectStoreTest extends TestCase
 {
     use RefreshDatabase;
 
     public function setUp(): void
     {
         parent::setUp();
-
+        $this->actingAs(User::factory()->create());
     }
 
     public function testResponseIsOk()
@@ -32,7 +31,7 @@ class ProjectControllerStoreTest extends TestCase
         $yesterday->modify('+1 day');
         $dueDate = $yesterday->format('Y-m-d h:i:s');
 
-        $response = $this->actingAs(User::factory()->create())->post('/projects', [
+        $response = $this->post('/projects', [
             'title' => 'title',
             'description' => 'description',
             'dueDate' => $dueDate,
@@ -47,7 +46,7 @@ class ProjectControllerStoreTest extends TestCase
         $useCaseMock->method('execute')->willThrowException(new ClientException);
         $this->instance(CreateProject::class, $useCaseMock);
 
-        $response = $this->actingAs(User::factory()->create())->post('/projects', [
+        $response = $this->post('/projects', [
             'title' => 'title',
             'description' => 'description',
             'dueDate' => '2001-01-01 00:00:00',
@@ -62,7 +61,7 @@ class ProjectControllerStoreTest extends TestCase
         $useCaseMock->method('execute')->willThrowException(new ServerException());
         $this->instance(CreateProject::class, $useCaseMock);
 
-        $response = $this->actingAs(User::factory()->create())->post('/projects', [
+        $response = $this->post('/projects', [
             'title' => 'title',
             'description' => 'description',
             'dueDate' => '2001-01-01 00:00:00',

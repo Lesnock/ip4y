@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Exceptions\ClientException;
+use App\Http\Exceptions\ServerException;
+use App\Http\Requests\StoreProjectRequest;
+use App\UseCases\CreateProject\CreateProject;
+use App\UseCases\CreateProject\InputData as CreateProjectInputData;
+use App\Utils\ControllerExceptionHandler;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
 {
@@ -25,9 +32,18 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request, CreateProject $createProject)
     {
-        //
+        try {
+            $output = $createProject->execute(new CreateProjectInputData($request->validated()));
+
+            return response()->json([
+                'status' => true,
+                'id' => $output->id
+            ], Response::HTTP_CREATED); // 201
+        } catch (ClientException | ServerException $error) {
+            return ControllerExceptionHandler::handle($error);
+        }
     }
 
     /**

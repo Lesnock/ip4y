@@ -18,10 +18,10 @@ class CreateProject
      * Quando estiver rodando via request no entanto, o verdadeiro ProjectRepository será injetado pelo Service Container
      * do Laravel.
      */
-    public function __construct(private  $projectRepository)
+    public function __construct(private ProjectRepository $projectRepository)
     { }
 
-    public function execute(InputData $input)
+    public function execute(InputData $input): ?OutputData
     {
         try {
             $project = Project::build($input->title, $input->description, new DateTime($input->dueDate));

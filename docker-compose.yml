@@ -1,5 +1,6 @@
 services:
     laravel.test:
+        container_name: ip4y_app
         build:
             context: ./docker/8.3
             dockerfile: Dockerfile
@@ -22,6 +23,7 @@ services:
         networks:
             - sail
     sql_server:
+        container_name: ip4y_sql_server
         image: mcr.microsoft.com/mssql/server:2022-latest
         ports:
             - '${DB_PORT:-1433}:1433'
@@ -35,7 +37,7 @@ services:
             - ./docker/sqlserver-entrypoint:/usr/config
         networks:
             - sail
-        entrypoint: ["./usr/config/sqlserver-entrypoint.sh"]
+        # entrypoint: ["./usr/config/sqlserver-entrypoint.sh"]
 networks:
     sail:
         driver: bridge

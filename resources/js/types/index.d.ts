@@ -14,5 +14,14 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
 type Project = {
     title: string;
     description: string;
-    dueDate: Date
+    dueDate: Date,
+    tasks: Task[]
 };
+
+type Task = {
+    title: string;
+    description: string;
+    status: 'pending' | 'in-progress' | 'completed';
+    responsible_id: number | null;
+    responsible?: User
+}

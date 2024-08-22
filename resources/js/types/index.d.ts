@@ -12,6 +12,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
 };
 
 type Project = {
+    id: number;
     title: string;
     description: string;
     dueDate: Date,

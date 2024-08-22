@@ -11,8 +11,8 @@ describe('<Project />', () => {
             props: { project }
         })
 
-        expect(wrapper.find('.title').exists()).toBeTruthy()
-        expect(wrapper.find('.title').text()).toBe(project.title)
+        expect(wrapper.find('[data-title]').exists()).toBeTruthy()
+        expect(wrapper.find('[data-title]').text()).toContain(project.title)
     })
 
     test('Show description', () => {
@@ -21,8 +21,8 @@ describe('<Project />', () => {
             props: { project }
         })
 
-        expect(wrapper.find('.description').exists()).toBeTruthy()
-        expect(wrapper.find('.description').text()).toBe(project.description)
+        expect(wrapper.find('[data-description]').exists()).toBeTruthy()
+        expect(wrapper.find('[data-description]').text()).toBe(project.description)
     })
 
     test('Show task completed 0 / 1', () => {
@@ -35,7 +35,7 @@ describe('<Project />', () => {
             props: { project }
         })
 
-        expect(wrapper.find('.tasks-status').text()).toContain('0 / 1')
-        expect(wrapper.find('.tasks-status').text()).toContain('0 / 1')
+        expect(wrapper.find('[data-tasks-status]').text()).toContain('0 / 1')
+        expect(wrapper.find('[data-tasks-status]').text()).toContain('0 / 1')
     })
 })

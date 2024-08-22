@@ -5,6 +5,7 @@ export class ProjectBuilder {
 
     private constructor() {
         this.project = {
+            id: 1,
             title: 'Title',
             description: 'Description',
             dueDate: new Date(),

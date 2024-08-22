@@ -5,6 +5,9 @@ import { createApp, h, DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import { Project } from './types';
+import { ProjectBuilder } from './Testing/Builders/ProjectBuilder';
+import { TaskBuilder } from './Testing/Builders/TaskBuilder';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

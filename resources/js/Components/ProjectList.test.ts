@@ -10,7 +10,7 @@ describe('<ProjectList />', () => {
                 projects: []
             }
         })
-        expect(wrapper.find('.empty').exists()).toBeTruthy()
+        expect(wrapper.find('[data-empty]').exists()).toBeTruthy()
     })
 
     test('Dont show empty info if it has projects', () => {

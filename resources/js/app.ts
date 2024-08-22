@@ -18,6 +18,9 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .provide<Project[]>('projects', [
+                ProjectBuilder.aProject().build(),
+            ])
             .mount(el);
     },
     progress: {

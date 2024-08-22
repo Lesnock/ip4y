@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import ProjectList from '@/Components/ProjectList.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Project } from '@/types';
 import { Head } from '@inertiajs/vue3';
+import { inject } from 'vue';
+
+const projects = inject<Project[]>('projects')
 </script>
 
 <template>
@@ -28,7 +32,7 @@ import { Head } from '@inertiajs/vue3';
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto">
-                <ProjectList />
+                <ProjectList :projects="projects" />
             </div>
         </div>
     </AuthenticatedLayout>

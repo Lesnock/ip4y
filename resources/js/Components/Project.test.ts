@@ -38,4 +38,14 @@ describe('<Project />', () => {
         expect(wrapper.find('[data-tasks-status]').text()).toContain('0 / 1')
         expect(wrapper.find('[data-tasks-status]').text()).toContain('0 / 1')
     })
+
+    test('Show formatted due date', () => {
+        const project = ProjectBuilder.aProject().build()
+        const wrapper = mount(Project, {
+            props: { project }
+        })
+
+        expect(wrapper.find('[data-due-date]').exists()).toBeTruthy()
+        expect(wrapper.find('[data-due-date]').text()).toBe(project.dueDate.toLocaleDateString())
+    })
 })

@@ -11,6 +11,7 @@ use App\UseCases\CreateProject\InputData as CreateProjectInputData;
 use App\UseCases\UpdateProject\InputData as UpdateProjectInputData;
 use App\UseCases\UpdateProject\UpdateProject;
 use App\Utils\ControllerExceptionHandler;
+use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
@@ -28,7 +29,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('ProjectAdd');
     }
 
     /**

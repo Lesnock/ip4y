@@ -8,6 +8,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Project } from './types';
 import { ProjectBuilder } from './Testing/Builders/ProjectBuilder';
 import { TaskBuilder } from './Testing/Builders/TaskBuilder';
+import { ProjectGateway } from './types/Gateways';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -21,6 +22,7 @@ createInertiaApp({
             .provide<Project[]>('projects', [
                 ProjectBuilder.aProject().build(),
             ])
+            .provide<ProjectGateway>('projectGateway', { add: () => {} })
             .mount(el);
     },
     progress: {

@@ -1,23 +1,21 @@
 <script setup lang="ts">
 import ProjectList from '@/Components/ProjectList.vue';
-import ProjectAddForm from '@/Components/ProjectAddForm.vue';
+import ProjectUpdateForm from '@/Components/ProjectUpdateForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Project } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 type Props = {
-    projects: Project[]
+    project: Project
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    projects: () => ([])
-})
+const props = defineProps<Props>()
 
-const projects = ref([...props.projects])
+const project = ref(props.project)
 
 function onAddProject(project: Project) {
-    projects.value.unshift(project)
+    // projects.value.unshift(project)
 }
 </script>
 
@@ -29,18 +27,17 @@ function onAddProject(project: Project) {
         <template #header>
             <h2
                 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight flex align-items justify-between items-center">
-                <span>Projetos</span>
+                <span>Projeto # {{ project.id }}</span>
             </h2>
+
+            <ProjectUpdateForm :project="project" @add="onAddProject" />
         </template>
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto">
-                <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Novo projeto</h2>
-                <ProjectAddForm @add="onAddProject" />
-                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <div class="mt-6">
-                    <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Projetos</h2>
-                    <ProjectList :projects="projects" />
+                    <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Tarefas</h2>
+                    <!-- <ProjectList :projects="projects" /> -->
                 </div>
             </div>
         </div>

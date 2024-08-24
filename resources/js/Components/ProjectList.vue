@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Project as ProjectType } from '@/types';
+import { router } from '@inertiajs/vue3'
 import Project from './Project.vue';
 
 type Props = {
@@ -15,7 +16,8 @@ withDefaults(defineProps<Props>(), {
     <TransitionGroup name="list" tag="ul">
         <Project v-for="project in projects" :key="project.id" :project="project"
             data-project
-            class="hover:transform hover:-translate-y-1 hover:-translate-x-1 hover:border-2 hover:border-blue-500 duration-75 cursor-pointer">
+            class="hover:transform hover:-translate-y-1 hover:-translate-x-1 hover:border-2 hover:border-blue-500 duration-75 cursor-pointer"
+            @click="router.visit(`/projects/${project.id}`)">
         </Project>
     </TransitionGroup>
 </template>

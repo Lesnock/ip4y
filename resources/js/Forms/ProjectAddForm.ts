@@ -1,4 +1,3 @@
-import type { Form } from "@/types/form";
 import type { ProjectAddFormDTO } from "@/types/dto";
 import { reactive, watch } from "vue";
 import { object, string, ValidationError } from "yup";
@@ -10,7 +9,7 @@ export type SubmitResponse = {
     project: Project|null;
 }
 
-export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
+export class ProjectAddForm {
     private _fields: ProjectAddFormDTO
 
     private _errors: { [key in keyof ProjectAddFormDTO]: string }

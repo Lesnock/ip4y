@@ -3,3 +3,9 @@ export type ProjectAddFormDTO  ={
     description: string;
     due_date: string;
 }
+
+export type ProjectUpdateFormDTO = Partial<{
+    title: string;
+    description: string;
+    due_date: string;
+}>

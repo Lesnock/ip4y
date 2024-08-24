@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\CreateProject\InputData as CreateProjectInputData;
 use App\UseCases\GetProject\GetProject;
+use App\UseCases\ListProject\ListProject;
 use App\UseCases\UpdateProject\InputData as UpdateProjectInputData;
 use App\UseCases\UpdateProject\UpdateProject;
 use App\Utils\ControllerExceptionHandler;
@@ -20,9 +21,11 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ListProject $listProject)
     {
-        //
+        return Inertia::render('Projects', [
+            'projects' => $listProject->execute()
+        ]);
     }
 
     /**

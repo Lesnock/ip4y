@@ -7,8 +7,15 @@ import { Head } from '@inertiajs/vue3';
 import { inject, ref } from 'vue';
 import { Link } from '@inertiajs/vue3'
 
-const injectedProjects = inject('projects') as Project[]
-const projects = ref([...injectedProjects])
+type Props = {
+    projects: Project[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    projects: () => ([])
+})
+
+const projects = ref([...props.projects])
 
 function onAddProject(project: Project) {
     projects.value.unshift(project)
@@ -17,7 +24,7 @@ function onAddProject(project: Project) {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Projetos" />
 
     <AuthenticatedLayout>
         <template #header>

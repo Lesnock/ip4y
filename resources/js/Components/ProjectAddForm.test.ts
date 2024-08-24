@@ -2,8 +2,10 @@ import { mount, VueWrapper } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import ProjectAddForm from './ProjectAddForm.vue'
 import { ProjectBuilder } from '@/Testing/Builders/ProjectBuilder'
-import { ProjectGateway } from '@/types/Gateways'
+import type { ProjectGateway } from '@/types/gateways.d.ts'
 import { nextTick } from 'vue'
+import { ProjectAddFormDTO } from '@/types/dto'
+import { Project } from '@/types'
 
 function fillForm(wrapper: VueWrapper, form: ProjectAddFormDTO) {
     wrapper.find('[data-input-title]').setValue(form.title)
@@ -11,9 +13,9 @@ function fillForm(wrapper: VueWrapper, form: ProjectAddFormDTO) {
     wrapper.find('[data-input-due-date]').setValue(form.dueDate)
 }
 
-function createGatewayMock(): ProjectGateway {
+function createGatewayMock(response?: Project): ProjectGateway {
     return {
-        add: vi.fn().mockResolvedValueOnce(ProjectBuilder.aProject().build()),
+        add: vi.fn().mockResolvedValueOnce(response ?? ProjectBuilder.aProject().build()),
         async patch() { }
     }
 }
@@ -58,14 +60,17 @@ describe('<ProjectAddForm />', () => {
         expect(wrapper.find('[data-input-due-date]').classes().some(_class => _class.includes('error'))).toBeFalsy()
     })
 
-    test('Call gateway add with correct data and emits event of add', async () => {
+    test('Call gateway add with correct data and emits event of add with correct data', async () => {
         const form = { title: 'title', description: 'description', dueDate: '2099-01-01' }
-        const projectGateway = createGatewayMock()
+        const responseProject = ProjectBuilder.aProject().build()
+        const projectGateway = createGatewayMock(responseProject)
         const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
         fillForm(wrapper, form)
         wrapper.find('[data-input-submit-button]').trigger('click')
         expect(projectGateway.add).toHaveBeenCalledWith(form)
         await nextTick()
         expect(wrapper.emitted()).toHaveProperty('add')
+        const emitFirstArg = (wrapper.emitted().add[0] as object[])[0]
+        expect(emitFirstArg).toEqual(responseProject)
     })
 })

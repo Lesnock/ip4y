@@ -1,5 +1,6 @@
 import './bootstrap';
 import '../css/app.css';
+import 'toastr/build/toastr.min.css'
 
 import { createApp, h, DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
@@ -7,8 +8,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Project } from './types';
 import { ProjectBuilder } from './Testing/Builders/ProjectBuilder';
-import { TaskBuilder } from './Testing/Builders/TaskBuilder';
-import { ProjectGateway } from './types/Gateways';
+import { ProjectGateway } from './types/gateways';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -22,7 +22,7 @@ createInertiaApp({
             .provide<Project[]>('projects', [
                 ProjectBuilder.aProject().build(),
             ])
-            .provide<ProjectGateway>('projectGateway', { add: () => {} })
+            .provide<ProjectGateway>('projectGateway', { add: (form) => { console.log(form) } })
             .mount(el);
     },
     progress: {

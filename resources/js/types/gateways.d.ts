@@ -1,6 +1,7 @@
 import { Project } from ".";
+import { ProjectAddFormDTO } from "./dto";
 
 export interface ProjectGateway {
-    add(form: ProjectAddFormDTO): Promise<Project>;
+    store(form: ProjectAddFormDTO): Promise<{ error: string|null, project: Project|null }>;
     patch(): Promise<void>;
 }

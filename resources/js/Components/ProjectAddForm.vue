@@ -8,22 +8,19 @@ import { ProjectAddForm } from '@/Forms/ProjectAddForm';
 const gateway = inject('projectGateway') as ProjectGateway
 const title = ref<HTMLInputElement>()
 const emit = defineEmits(['add'])
-const form = new ProjectAddForm();
+const form = new ProjectAddForm(gateway);
 
 async function submit() {
     if (!form.validate()) {
-        toastr.error('Dados inválidos. Preencha todos os campos')
+        toastr.error('Dados inválidos. Preencha todos os campos'); return
+    }
+    const { error, project } = await form.submit()
+    if (error) {
+        toastr.error(error)
         return
     }
-    try {
-        const project = await gateway.add(form.data())
-        toastr.success('Projeto adicionado com sucesso!')
-        emit('add', project)
-    } catch (error) {
-        if (error instanceof Error) {
-            toastr.error(`Erro ao salvar projeto: ${error.message}`)
-        }
-    }
+    toastr.success('Projeto adicionado com sucesso!')
+    emit('add', project)
 }
 
 onMounted(() => {

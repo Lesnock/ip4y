@@ -2,8 +2,15 @@ import type { Form } from "@/types/form";
 import type { ProjectAddFormDTO } from "@/types/dto";
 import { reactive, watch } from "vue";
 import { object, string, ValidationError } from "yup";
+import { ProjectGateway } from "@/types/gateways";
+import { Project } from "@/types";
 
-export class ProjectAddForm implements Form<ProjectAddFormDTO> {
+export type SubmitResponse = {
+    error: string|null;
+    project: Project|null;
+}
+
+export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
     private _fields: ProjectAddFormDTO
 
     private _errors: { [key in keyof ProjectAddFormDTO]: string }
@@ -14,7 +21,11 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO> {
         dueDate: string().required(),
     }) 
 
-    constructor() {
+    private _gateway: ProjectGateway
+
+    constructor(gateway: ProjectGateway) {
+        this._gateway = gateway
+
         const structure = {
             title: '',
             description: '',
@@ -57,5 +68,9 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO> {
             }
             return false
         }
+    }
+
+    submit(): Promise<SubmitResponse> {
+        return this._gateway.store(this._fields)
     }
 }

@@ -6,6 +6,7 @@ import type { ProjectGateway } from '@/types/gateways.d.ts'
 import { nextTick } from 'vue'
 import { ProjectAddFormDTO } from '@/types/dto'
 import { Project } from '@/types'
+import { SubmitResponse } from '@/Forms/ProjectAddForm'
 
 function fillForm(wrapper: VueWrapper, form: ProjectAddFormDTO) {
     wrapper.find('[data-input-title]').setValue(form.title)
@@ -13,9 +14,13 @@ function fillForm(wrapper: VueWrapper, form: ProjectAddFormDTO) {
     wrapper.find('[data-input-due-date]').setValue(form.dueDate)
 }
 
-function createGatewayMock(response?: Project): ProjectGateway {
+function createGatewayMock(response?: SubmitResponse): ProjectGateway {
+    const defaultResponse: SubmitResponse = {
+        error: null,
+        project: ProjectBuilder.aProject().build()
+    }
     return {
-        add: vi.fn().mockResolvedValueOnce(response ?? ProjectBuilder.aProject().build()),
+        store: vi.fn().mockResolvedValueOnce(response ?? defaultResponse),
         async patch() { }
     }
 }
@@ -62,15 +67,15 @@ describe('<ProjectAddForm />', () => {
 
     test('Call gateway add with correct data and emits event of add with correct data', async () => {
         const form = { title: 'title', description: 'description', dueDate: '2099-01-01' }
-        const responseProject = ProjectBuilder.aProject().build()
+        const responseProject = { error: null, project: ProjectBuilder.aProject().build() }
         const projectGateway = createGatewayMock(responseProject)
         const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
         fillForm(wrapper, form)
         wrapper.find('[data-input-submit-button]').trigger('click')
-        expect(projectGateway.add).toHaveBeenCalledWith(form)
+        expect(projectGateway.store).toHaveBeenCalledWith(form)
         await nextTick()
         expect(wrapper.emitted()).toHaveProperty('add')
         const emitFirstArg = (wrapper.emitted().add[0] as object[])[0]
-        expect(emitFirstArg).toEqual(responseProject)
+        expect(emitFirstArg).toEqual(responseProject.project)
     })
 })

@@ -8,7 +8,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Project } from './types';
 import { ProjectBuilder } from './Testing/Builders/ProjectBuilder';
-import { ProjectGateway } from './types/gateways';
+import { ProjectGatewayAxios } from './Gateways/ProjectGatewayAxios';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -22,7 +22,7 @@ createInertiaApp({
             .provide<Project[]>('projects', [
                 ProjectBuilder.aProject().build(),
             ])
-            .provide<ProjectGateway>('projectGateway', { add: (form) => { console.log(form) } })
+            .provide('projectGateway', new ProjectGatewayAxios)
             .mount(el);
     },
     progress: {

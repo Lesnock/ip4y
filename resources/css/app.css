@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.borderless-input {
+    @apply text-sm block w-full p-2.5 border-transparent border-b-gray-300 dark:bg-gray-800 dark:placeholder-gray-400 dark:border-b-gray-400 dark:text-white focus:ring-0 focus:border-transparent focus:border-b-blue-500 dark:focus:border-b-blue-500
+}

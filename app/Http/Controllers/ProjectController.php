@@ -8,6 +8,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\CreateProject\InputData as CreateProjectInputData;
+use App\UseCases\GetProject\GetProject;
 use App\UseCases\UpdateProject\InputData as UpdateProjectInputData;
 use App\UseCases\UpdateProject\UpdateProject;
 use App\Utils\ControllerExceptionHandler;
@@ -35,14 +36,15 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProjectRequest $request, CreateProject $createProject)
+    public function store(StoreProjectRequest $request, CreateProject $createProject, GetProject $getProject)
     {
         try {
             $output = $createProject->execute(new CreateProjectInputData($request->validated()));
+            $project = $getProject->execute($output->id);
 
             return response()->json([
                 'status' => true,
-                'id' => $output->id
+                'project' => $project
             ], Response::HTTP_CREATED); // 201
         } catch (ClientException | ServerException $error) {
             return ControllerExceptionHandler::handle($error);

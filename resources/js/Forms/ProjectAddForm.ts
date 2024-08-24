@@ -45,6 +45,12 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
         return this._fields
     }
 
+    clear() {
+        this._fields.title = ''
+        this._fields.description = ''
+        this._fields.dueDate = ''
+    }
+
     errors() {
         return this._errors
     }

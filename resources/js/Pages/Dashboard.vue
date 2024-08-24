@@ -7,10 +7,10 @@ import { Head } from '@inertiajs/vue3';
 import { inject, ref } from 'vue';
 import { Link } from '@inertiajs/vue3'
 
-const projects = ref<Project[]>(inject('projects') as Project[])
+const injectedProjects = inject('projects') as Project[]
+const projects = ref([...injectedProjects])
 
 function onAddProject(project: Project) {
-    console.log(project)
     projects.value.unshift(project)
 }
 </script>

@@ -13,7 +13,13 @@ export class ProjectGatewayAxios implements ProjectGateway {
     async store(form: ProjectAddFormDTO): Promise<{ error: string | null, project: Project | null }> {
         try {
             const res = await this.client.post('/projects', form)
-            return { error: null, project: res.data.project }
+            return { 
+                error: null, 
+                project: {
+                    ...res.data.project,
+                    due_date: new Date(res.data.project.due_date)
+                }
+            }
         } catch (error) {
             if (error instanceof AxiosError) {
                 // Domain error

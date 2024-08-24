@@ -7,6 +7,8 @@ const props = defineProps<{
     project: Project
 }>()
 
+console.log(props.project.due_date)
+
 const completedQuantity = computed(() => {
     return props.project.tasks.filter(task => task.status == 'completed').length
 })

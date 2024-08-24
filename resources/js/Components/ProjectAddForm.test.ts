@@ -33,7 +33,6 @@ describe('<ProjectAddForm />', () => {
         expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeFalsy()
         wrapper.find('[data-input-submit-button]').trigger('click')
         await delay()
-        // console.log(wrapper.find('[data-input-title]').classes())
         expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeTruthy()
     })
 

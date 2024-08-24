@@ -13,18 +13,22 @@ withDefaults(defineProps<Props>(), {
 
 <template>
     <TransitionGroup name="list" tag="ul">
-        <Project v-for="project in projects" :key="project.id" :project="project" class="project"></Project>
+        <Project v-for="project in projects" :key="project.id" :project="project"
+            data-project
+            class="hover:transform hover:-translate-y-1 hover:-translate-x-1 hover:border-2 hover:border-blue-500 duration-75 cursor-pointer">
+        </Project>
     </TransitionGroup>
 </template>
 
 <style scoped>
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
+    opacity: 0;
+    transform: translateX(30px);
 }
 </style>

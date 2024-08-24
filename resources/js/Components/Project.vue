@@ -7,8 +7,6 @@ const props = defineProps<{
     project: Project
 }>()
 
-console.log(props.project.due_date)
-
 const completedQuantity = computed(() => {
     return props.project.tasks.filter(task => task.status == 'completed').length
 })
@@ -16,7 +14,7 @@ const completedQuantity = computed(() => {
 
 <template>
     <div
-        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-4 sm:px-6 lg:px-8 p-6 text-gray-900 dark:text-gray-100">
+        class="bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg mb-4 sm:px-6 lg:px-8 p-6 text-gray-900 dark:text-gray-100 ">
         <div class="flex justify-between items-center w-full">
             <div class="flex-1">
                 <div data-title class="text-2xl font-semibold"># {{ project.id }} - {{ project.title }}</div>

@@ -10,7 +10,7 @@ describe('<ProjectList />', () => {
                 projects: [ProjectBuilder.aProject().build()]
             }
         })
-        expect(wrapper.findAll('.project').length).toBe(1)
+        expect(wrapper.findAll('[data-project]').length).toBe(1)
     })
 
     test('Show 2 projects', () => {
@@ -22,6 +22,6 @@ describe('<ProjectList />', () => {
                 ]
             }
         })
-        expect(wrapper.findAll('.project').length).toBe(2)
+        expect(wrapper.findAll('[data-project]').length).toBe(2)
     })
 })

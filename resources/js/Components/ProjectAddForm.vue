@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive, inject } from 'vue';
+import { onMounted, ref, reactive, inject, watch } from 'vue';
 import PrimaryButton from './PrimaryButton.vue';
 import type { ProjectGateway } from '@/types/Gateways';
-
+import { object, string } from 'yup'
+import { validate } from '@/validation';
 const gateway = inject<ProjectGateway>('projectGateway') as ProjectGateway
-
 const title = ref<HTMLInputElement>()
+
+const emit = defineEmits(['add'])
 
 const form = reactive<ProjectAddFormDTO>({
     title: '',
@@ -13,35 +15,26 @@ const form = reactive<ProjectAddFormDTO>({
     dueDate: ''
 })
 
+const schema = object({
+    title: string().required(),
+    description: string().required(),
+    dueDate: string().required(),
+})
+
 const errors = reactive<Partial<ProjectAddFormDTO>>({})
 
-function validate(): boolean {
-    errors.title = ''
-    errors.description = ''
-    errors.dueDate = ''
-
-    if (!form.title) {
-        errors.title = 'Obrigatório'
-        return false
-    }
-
-    if (!form.description) {
-        errors.description = 'Obrigatório'
-        return false
-    } 
-
-    if (!form.dueDate) {
-        errors.dueDate = 'Obrigatório'
-        return false
-    }
-
-    return true
-}
-
 async function submit() {
-    errors.title = 'Obrigatório'
+    const validation = validate(schema, form)
+    if (!validation.status) {
+        for (const prop in validation.errors) {
+            errors[prop as keyof ProjectAddFormDTO] = validation.errors[prop]
+        }
+        return
+    }
+
     try {
-        gateway.add(form)
+        const project = await gateway.add(form)
+        emit('add', project)
     } catch (error) {
         // TODO: Show toast
     }
@@ -50,6 +43,11 @@ async function submit() {
 onMounted(() => {
     title.value?.focus()
 })
+
+// Clear errors
+watch(() => form.title, () => errors.title = '')
+watch(() => form.description, () => errors.description = '')
+watch(() => form.dueDate, () => errors.dueDate = '')
 </script>
 
 <template>
@@ -62,17 +60,17 @@ onMounted(() => {
 
             <div class="mb-4">
                 <input data-input-due-date type="date" id="dueDate" v-model="form.dueDate" class="borderless-input"
-                    :class="{ 'error': errors.description }" required />
+                    :class="{ 'error': errors.dueDate }" required />
             </div>
         </div>
 
         <div class="mb-4">
             <textarea data-input-description id="description" rows="4" v-model="form.description"
-                class="borderless-input h-16" :class="{ 'error': errors.dueDate }"
+                class="borderless-input h-16" :class="{ 'error': errors.description }"
                 placeholder="Descrição do projeto"></textarea>
         </div>
 
-        <PrimaryButton data-input-submit-button @click="validate() && submit()">
+        <PrimaryButton data-input-submit-button @click="submit">
             Adicionar Projeto
         </PrimaryButton>
     </div>

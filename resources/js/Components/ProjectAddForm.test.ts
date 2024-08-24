@@ -19,42 +19,53 @@ function createGatewayMock(): ProjectGateway {
 }
 
 describe('<ProjectAddForm />', () => {
-    test('Sends correct data', () => {
+    test('Test title has required error', async () => {
+        const projectGateway = createGatewayMock()
+        const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
+        expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeFalsy()
+        wrapper.find('[data-input-submit-button]').trigger('click')
+        await nextTick()
+        expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeTruthy()
+    })
+
+    test('Test description has required error', async () => {
+        const projectGateway = createGatewayMock()
+        const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
+        expect(wrapper.find('[data-input-description]').classes().some(_class => _class.includes('error'))).toBeFalsy()
+        wrapper.find('[data-input-submit-button]').trigger('click')
+        await nextTick()
+        expect(wrapper.find('[data-input-description]').classes().some(_class => _class.includes('error'))).toBeTruthy()
+    })
+
+    test('Test due date has required error', async () => {
+        const projectGateway = createGatewayMock()
+        const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
+        expect(wrapper.find('[data-input-due-date]').classes().some(_class => _class.includes('error'))).toBeFalsy()
+        wrapper.find('[data-input-submit-button]').trigger('click')
+        await nextTick()
+        expect(wrapper.find('[data-input-due-date]').classes().some(_class => _class.includes('error'))).toBeTruthy()
+    })
+
+    test('Only title field has required error', async () => {
+        const projectGateway = createGatewayMock()
+        const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
+        wrapper.find('[data-input-description]').setValue('description')
+        wrapper.find('[data-input-due-date]').setValue('2099-01-01')
+        wrapper.find('[data-input-submit-button]').trigger('click')
+        await nextTick()
+        expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeTruthy()
+        expect(wrapper.find('[data-input-description]').classes().some(_class => _class.includes('error'))).toBeFalsy()
+        expect(wrapper.find('[data-input-due-date]').classes().some(_class => _class.includes('error'))).toBeFalsy()
+    })
+
+    test('Call gateway add with correct data and emits event of add', async () => {
         const form = { title: 'title', description: 'description', dueDate: '2099-01-01' }
         const projectGateway = createGatewayMock()
         const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
         fillForm(wrapper, form)
         wrapper.find('[data-input-submit-button]').trigger('click')
         expect(projectGateway.add).toHaveBeenCalledWith(form)
-    })
-
-    test('Test fields have required error', async () => {
-        const projectGateway = createGatewayMock()
-        const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
-        expect(
-            wrapper.find('[data-input-title]').classes() .some(_class => _class.includes('error'))
-        ).toBeFalsy()
-        expect(
-            wrapper.find('[data-input-description]').classes() .some(_class => _class.includes('error'))
-        ).toBeFalsy()
-        expect(
-            wrapper.find('[data-input-due-date]').classes() .some(_class => _class.includes('error'))
-        ).toBeFalsy()
-        // Submit
-        wrapper.find('[data-input-submit-button]').trigger('click')
         await nextTick()
-        expect(
-            wrapper.find('[data-input-title]').classes() .some(_class => _class.includes('error'))
-        ).toBeTruthy()
-        expect(
-            wrapper.find('[data-input-description]').classes() .some(_class => _class.includes('error'))
-        ).toBeTruthy()
-        expect(
-            wrapper.find('[data-input-due-date]').classes() .some(_class => _class.includes('error'))
-        ).toBeTruthy()
-    })
-
-    test('Only title field has required error', () => {
-        
+        expect(wrapper.emitted()).toHaveProperty('add')
     })
 })

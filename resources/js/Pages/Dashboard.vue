@@ -39,7 +39,7 @@ const projects = inject<Project[]>('projects')
                 <div class="mt-6">
                     <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Projetos</h2>
                     <ProjectList :projects="projects" />
-                </div                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>

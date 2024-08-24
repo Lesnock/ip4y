@@ -18,7 +18,7 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
     private _schema = object({
         title: string().required(),
         description: string().required(),
-        dueDate: string().required(),
+        due_date: string().required(),
     }) 
 
     private _gateway: ProjectGateway
@@ -29,7 +29,7 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
         const structure = {
             title: '',
             description: '',
-            dueDate: ''
+            due_date: ''
         }
 
         this._fields = reactive<ProjectAddFormDTO>({ ...structure })
@@ -38,7 +38,7 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
         // Clear errors on type...
         watch(() => this._fields.title, () => this._errors.title = '')
         watch(() => this._fields.description, () => this._errors.description = '')
-        watch(() => this._fields.dueDate, () => this._errors.dueDate = '')
+        watch(() => this._fields.due_date, () => this._errors.due_date = '')
     }
 
     data() {
@@ -48,7 +48,7 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
     clear() {
         this._fields.title = ''
         this._fields.description = ''
-        this._fields.dueDate = ''
+        this._fields.due_date = ''
     }
 
     errors() {
@@ -58,7 +58,7 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
     clearErrors() {
         this._errors.title = ''
         this._errors.description = ''
-        this._errors.dueDate = ''
+        this._errors.due_date = ''
     }
 
     validate(): boolean {
@@ -77,6 +77,6 @@ export class ProjectAddForm implements Form<ProjectAddFormDTO, SubmitResponse> {
     }
 
     submit(): Promise<SubmitResponse> {
-        return this._gateway.store(this._fields)
+        return this._gateway.store({ ...this._fields })
     }
 }

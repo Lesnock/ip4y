@@ -1,5 +1,5 @@
 export type ProjectAddFormDTO  ={
     title: string;
     description: string;
-    dueDate: string;
+    due_date: string;
 }

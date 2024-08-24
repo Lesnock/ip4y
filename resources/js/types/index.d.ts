@@ -15,7 +15,7 @@ type Project = {
     id: number;
     title: string;
     description: string;
-    dueDate: Date,
+    due_date: Date,
     tasks: Task[]
 };
 

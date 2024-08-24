@@ -8,7 +8,7 @@ export class ProjectBuilder {
             id: 1,
             title: 'Title',
             description: 'Description',
-            dueDate: new Date(),
+            due_date: new Date(),
             tasks: []
         }
     }

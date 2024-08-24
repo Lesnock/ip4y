@@ -46,6 +46,6 @@ describe('<Project />', () => {
         })
 
         expect(wrapper.find('[data-due-date]').exists()).toBeTruthy()
-        expect(wrapper.find('[data-due-date]').text()).toBe(project.dueDate.toLocaleDateString())
+        expect(wrapper.find('[data-due-date]').text()).toBe(project.due_date.toLocaleDateString())
     })
 })

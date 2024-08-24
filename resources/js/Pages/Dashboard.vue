@@ -4,10 +4,15 @@ import ProjectAddForm from '@/Components/ProjectAddForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Project } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import { Link } from '@inertiajs/vue3'
 
-const projects = inject<Project[]>('projects')
+const projects = ref<Project[]>(inject('projects') as Project[])
+
+function onAddProject(project: Project) {
+    console.log(project)
+    projects.value.unshift(project)
+}
 </script>
 
 <template>
@@ -34,7 +39,7 @@ const projects = inject<Project[]>('projects')
         <div class="py-6">
             <div class="max-w-7xl mx-auto">
                 <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Novo projeto</h2>
-                <ProjectAddForm />
+                <ProjectAddForm @add="onAddProject" />
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <div class="mt-6">
                     <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Projetos</h2>

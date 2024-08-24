@@ -53,8 +53,8 @@ onMounted(() => {
             </div>
 
             <div class="mb-4">
-                <input data-input-due-date type="date" id="dueDate" v-model="form.data().dueDate"
-                    class="borderless-input" :class="{ 'error': form.errors().dueDate }" required />
+                <input data-input-due-date type="date" v-model="form.data().due_date"
+                    class="borderless-input" :class="{ 'error': form.errors().due_date }" required />
             </div>
         </div>
 

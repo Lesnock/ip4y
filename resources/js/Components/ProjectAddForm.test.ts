@@ -7,11 +7,12 @@ import { nextTick } from 'vue'
 import { ProjectAddFormDTO } from '@/types/dto'
 import { Project } from '@/types'
 import { SubmitResponse } from '@/Forms/ProjectAddForm'
+import { delay } from '@/helpers'
 
 function fillForm(wrapper: VueWrapper, form: ProjectAddFormDTO) {
     wrapper.find('[data-input-title]').setValue(form.title)
     wrapper.find('[data-input-description]').setValue(form.description)
-    wrapper.find('[data-input-due-date]').setValue(form.dueDate)
+    wrapper.find('[data-input-due-date]').setValue(form.due_date)
 }
 
 function createGatewayMock(response?: SubmitResponse): ProjectGateway {
@@ -31,7 +32,8 @@ describe('<ProjectAddForm />', () => {
         const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
         expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeFalsy()
         wrapper.find('[data-input-submit-button]').trigger('click')
-        await nextTick()
+        await delay()
+        // console.log(wrapper.find('[data-input-title]').classes())
         expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeTruthy()
     })
 
@@ -40,7 +42,7 @@ describe('<ProjectAddForm />', () => {
         const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
         expect(wrapper.find('[data-input-description]').classes().some(_class => _class.includes('error'))).toBeFalsy()
         wrapper.find('[data-input-submit-button]').trigger('click')
-        await nextTick()
+        await delay()
         expect(wrapper.find('[data-input-description]').classes().some(_class => _class.includes('error'))).toBeTruthy()
     })
 
@@ -49,7 +51,7 @@ describe('<ProjectAddForm />', () => {
         const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
         expect(wrapper.find('[data-input-due-date]').classes().some(_class => _class.includes('error'))).toBeFalsy()
         wrapper.find('[data-input-submit-button]').trigger('click')
-        await nextTick()
+        await delay()
         expect(wrapper.find('[data-input-due-date]').classes().some(_class => _class.includes('error'))).toBeTruthy()
     })
 
@@ -59,19 +61,20 @@ describe('<ProjectAddForm />', () => {
         wrapper.find('[data-input-description]').setValue('description')
         wrapper.find('[data-input-due-date]').setValue('2099-01-01')
         wrapper.find('[data-input-submit-button]').trigger('click')
-        await nextTick()
+        await delay()
         expect(wrapper.find('[data-input-title]').classes().some(_class => _class.includes('error'))).toBeTruthy()
         expect(wrapper.find('[data-input-description]').classes().some(_class => _class.includes('error'))).toBeFalsy()
         expect(wrapper.find('[data-input-due-date]').classes().some(_class => _class.includes('error'))).toBeFalsy()
     })
 
     test('Call gateway add with correct data and emits event of add with correct data', async () => {
-        const form = { title: 'title', description: 'description', dueDate: '2099-01-01' }
+        const form = { title: 'title', description: 'description', due_date: '2099-01-01' }
         const responseProject = { error: null, project: ProjectBuilder.aProject().build() }
         const projectGateway = createGatewayMock(responseProject)
         const wrapper = mount(ProjectAddForm, { global: { provide: { projectGateway } } })
         fillForm(wrapper, form)
         wrapper.find('[data-input-submit-button]').trigger('click')
+        await delay()
         expect(projectGateway.store).toHaveBeenCalledWith(form)
         await nextTick()
         expect(wrapper.emitted()).toHaveProperty('add')

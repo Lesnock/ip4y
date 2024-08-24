@@ -29,19 +29,13 @@ const completedQuantity = computed(() => {
                 </span>
             </div>
 
-            <div data-tasks-status class="flex-1 text-center">
+            <div data-tasks-status class="flex-1 text-right">
                 <div class="text-gray-400 mb-1">Data de Conclusão</div>
                 <span
                     data-due-date
                     class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 border border-blue-400">
                     {{ project.due_date.toLocaleDateString() }}
                 </span>
-            </div>
-
-            <div class="flex-1 text-right">
-                <PrimaryButton>
-                    Abrir
-                </PrimaryButton>
             </div>
         </div>
     </div>

@@ -11,15 +11,15 @@ class ProjectTest extends TestCase
 {
     public function testValidProjectIsCreated()
     {
-        $dueDate = new DateTime;
-        $dueDate->modify('+1 day');
-        $project = Project::build('title', 'description', $dueDate);
+        $due_date = new DateTime;
+        $due_date->modify('+1 day');
+        $project = Project::build('title', 'description', $due_date);
 
         $this->assertEquals($project->toArray(), [
             'id' => null,
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => $dueDate
+            'due_date' => $due_date
         ]);
     }
 
@@ -35,7 +35,7 @@ class ProjectTest extends TestCase
         Project::build('title', '', new DateTime());
     }
 
-    public function testProjectCannotBeCreatedWithPassedDueDate()
+    public function testProjectCannotBeCreatedWithPasseddue_date()
     {
         $this->expectException(EntityBuildValidationException::class);
         $yesterday = new DateTime;

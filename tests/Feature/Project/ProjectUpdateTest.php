@@ -25,12 +25,12 @@ class ProjectUpdateTest extends TestCase
 
         $yesterday = new DateTime();
         $yesterday->modify('+1 day');
-        $dueDate = $yesterday->format('Y-m-d h:i:s');
+        $due_date = $yesterday->format('Y-m-d h:i:s');
 
         $response = $this->put('/projects/1', [
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => $dueDate,
+            'due_date' => $due_date,
         ]);
 
         $response->assertStatus(200);
@@ -45,7 +45,7 @@ class ProjectUpdateTest extends TestCase
         $response = $this->put('/projects/1', [
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => '2001-01-01 00:00:00',
+            'due_date' => '2001-01-01 00:00:00',
         ]);
 
         $response->assertBadRequest();
@@ -60,7 +60,7 @@ class ProjectUpdateTest extends TestCase
         $response = $this->put('/projects/1', [
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => '2001-01-01 00:00:00',
+            'due_date' => '2001-01-01 00:00:00',
         ]);
 
         $response->assertInternalServerError();

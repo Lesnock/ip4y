@@ -11,12 +11,12 @@ class UpdateProjectInputDataBuilder
 
     private function __construct()
     {
-        $dueDate = new DateTime();
-        $dueDate->modify('+10 day');
+        $due_date = new DateTime();
+        $due_date->modify('+10 day');
         $this->inputData = new InputData([
             'title' => 'update-title',
             'description' => 'update-description',
-            'dueDate' => $dueDate->format('Y-m-d h:i:s'),
+            'due_date' => $due_date->format('Y-m-d h:i:s'),
         ]);
     }
 

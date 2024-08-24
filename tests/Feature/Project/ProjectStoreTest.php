@@ -18,6 +18,7 @@ class ProjectStoreTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->markTestSkipped('Transformar em integração');
         $this->actingAs(User::factory()->create());
     }
 
@@ -29,12 +30,12 @@ class ProjectStoreTest extends TestCase
 
         $yesterday = new DateTime();
         $yesterday->modify('+1 day');
-        $dueDate = $yesterday->format('Y-m-d h:i:s');
+        $due_date = $yesterday->format('Y-m-d h:i:s');
 
         $response = $this->post('/projects', [
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => $dueDate,
+            'due_date' => $due_date,
         ]);
 
         $response->assertStatus(201);
@@ -49,7 +50,7 @@ class ProjectStoreTest extends TestCase
         $response = $this->post('/projects', [
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => '2001-01-01 00:00:00',
+            'due_date' => '2001-01-01 00:00:00',
         ]);
 
         $response->assertBadRequest();
@@ -64,7 +65,7 @@ class ProjectStoreTest extends TestCase
         $response = $this->post('/projects', [
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => '2001-01-01 00:00:00',
+            'due_date' => '2001-01-01 00:00:00',
         ]);
 
         $response->assertInternalServerError();

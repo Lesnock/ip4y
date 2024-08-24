@@ -24,7 +24,7 @@ class UpdateProjectRequest extends FormRequest
         return [
             'title' => 'required|min:1',
             'description' => 'required|min:1',
-            'dueDate' => 'required',
+            'due_date' => 'required',
         ];
     }
 }

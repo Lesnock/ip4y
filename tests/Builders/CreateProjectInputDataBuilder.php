@@ -11,12 +11,12 @@ class CreateProjectInputDataBuilder
 
     private function __construct()
     {
-        $dueDate = new DateTime();
-        $dueDate->modify('+1 day');
+        $due_date = new DateTime();
+        $due_date->modify('+1 day');
         $this->inputData = new InputData([
             'title' => 'title',
             'description' => 'description',
-            'dueDate' => $dueDate->format('Y-m-d h:i:s'),
+            'due_date' => $due_date->format('Y-m-d h:i:s'),
         ]);
     }
 
@@ -37,11 +37,11 @@ class CreateProjectInputDataBuilder
         return $this;
     }
 
-    public function withInvalidDueDate()
+    public function withInvaliddue_date()
     {
         $yesterday = new DateTime();
         $yesterday->modify('-1 day');
-        $this->inputData->dueDate = $yesterday->format('Y-m-d h:i:s');
+        $this->inputData->due_date = $yesterday->format('Y-m-d h:i:s');
         return $this;
     }
 

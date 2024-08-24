@@ -33,7 +33,7 @@ class UpdateProject
             $project
                 ->setTitle($input->title)
                 ->setDescription($input->description)
-                ->setDueDate(new DateTime($input->dueDate));
+                ->setDueDate(new DateTime($input->due_date));
             $this->projectRepository->save($project);
         } catch (\Exception $error) {
             UseCaseExceptionHandler::handle($error);

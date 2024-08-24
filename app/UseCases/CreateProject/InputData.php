@@ -8,5 +8,5 @@ class InputData extends DTO
 {
     public string $title;
     public string $description;
-    public string $dueDate;
+    public string $due_date;
 }

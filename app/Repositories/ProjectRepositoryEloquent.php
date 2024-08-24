@@ -22,7 +22,7 @@ class ProjectRepositoryEloquent implements ProjectRepository
         $data = [
             'title' => $project->getTitle(),
             'description' => $project->getDescription(),
-            'due_date' => $project->getDueDate()->format('Y-m-d h:i:s'),
+            'due_date' => $project->getdue_date()->format('Y-m-d h:i:s'),
         ];
 
         if (!$project->getId()) {

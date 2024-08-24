@@ -38,10 +38,10 @@ class CreateProjectTest extends TestCase
         $usecase->execute($input);
     }
 
-    public function testProjectIsNotCreatedWithInvalidDueDate()
+    public function testProjectIsNotCreatedWithInvaliddue_date()
     {
         $this->expectException(ClientException::class);
-        $input = CreateProjectInputDataBuilder::aProject()->withInvalidDueDate()->build();
+        $input = CreateProjectInputDataBuilder::aProject()->withInvaliddue_date()->build();
         $projectRepositoryMock = $this->createMock(ProjectRepository::class);
         $usecase = new CreateProject($projectRepositoryMock);
         $usecase->execute($input);

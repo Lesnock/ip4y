@@ -19,7 +19,7 @@ class Project extends Entity
     private ?int $id;
     private string $title;
     private string $description;
-    private DateTime $dueDate;
+    private DateTime $due_date;
 
     /**
      * Construtor
@@ -30,18 +30,19 @@ class Project extends Entity
     private function __construct()
     {}
 
-    public static function build(string $title, string $description, DateTime $dueDate, ?int $id = null)
+    public static function build(string $title, string $description, DateTime $due_date, ?int $id = null)
     {
         // Se não possui ID, significa que um novo projeto está sendo criado
         // Neste caso não podemos permitir que a data de conclusão seja antes de "agora"
-        if (!$id && $dueDate < new DateTime) {
+        $today = (new DateTime)->setTime(0, 0);
+        if (!$id && $due_date < $today) {
             throw new EntityBuildValidationException("A data de conclusão já passou");
         }
 
         $project = (new Project)
             ->setTitle($title)
             ->setDescription($description)
-            ->setDueDate($dueDate);
+            ->setDueDate($due_date);
 
         // ID's não podem ser alterados, por isso não criamos um setter para ele
         $project->id = $id;
@@ -66,9 +67,9 @@ class Project extends Entity
         return $this;
     }
 
-    public function setDueDate(DateTime $dueDate)
+    public function setDueDate(DateTime $due_date)
     {
-        $this->dueDate = $dueDate;
+        $this->due_date = $due_date;
         return $this;
     }
 
@@ -87,9 +88,9 @@ class Project extends Entity
         return $this->description;
     }
 
-    public function getDueDate()
+    public function getdue_date()
     {
-        return $this->dueDate;
+        return $this->due_date;
     }
 
     public function toArray(): array
@@ -98,7 +99,7 @@ class Project extends Entity
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'dueDate' => $this->dueDate
+            'due_date' => $this->due_date
         ];
     }
 }

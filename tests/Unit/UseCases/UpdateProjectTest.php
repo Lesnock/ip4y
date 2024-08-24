@@ -16,9 +16,9 @@ class UpdateProjectTest extends TestCase
 {
     protected function createProject(): Project
     {
-        $dueDate = new DateTime;
-        $dueDate->modify('+1 day');
-        return Project::build('title', 'description', $dueDate, 1);
+        $due_date = new DateTime;
+        $due_date->modify('+1 day');
+        return Project::build('title', 'description', $due_date, 1);
     }
 
     public function testUpdateProject()
@@ -34,7 +34,7 @@ class UpdateProjectTest extends TestCase
 
         $this->assertEquals($project->getTitle(), $input->title);
         $this->assertEquals($project->getDescription(), $input->description);
-        $this->assertEquals($project->getDueDate()->format('Y-m-d h:i:s'), $input->dueDate);
+        $this->assertEquals($project->getdue_date()->format('Y-m-d h:i:s'), $input->due_date);
     }
 
     public function testProjectIsNotFound()

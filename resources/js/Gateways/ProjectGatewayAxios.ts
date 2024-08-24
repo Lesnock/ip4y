@@ -10,15 +10,27 @@ export class ProjectGatewayAxios implements ProjectGateway {
         this.client = axios.create()
     }
 
-    async store(form: ProjectAddFormDTO): Promise<{ error: string|null, project: Project|null }> {
+    async store(form: ProjectAddFormDTO): Promise<{ error: string | null, project: Project | null }> {
         try {
             const res = await this.client.post('/projects', form)
             return { error: null, project: res.data.project }
         } catch (error) {
             if (error instanceof AxiosError) {
-                const message = error.response?.data?.error ?? error.message
-                return { error: message, project: null }
+                // Domain error
+                if (error.response?.data.error) {
+                    return { error: error.response?.data.error, project: null }
+                }
+
+                // Form request error
+                if (error.response?.data.errors) {
+                    const message = []
+                    for (const field in error.response.data.errors) {
+                        message.push(error.response.data.errors[field])
+                    }
+                    return { error: message.join('<br>'), project: null }
+                }
             }
+
             return { error: (error as Error).message, project: null }
         }
     }

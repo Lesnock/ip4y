@@ -1,14 +1,25 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from 'vue';
+import { onMounted, ref, reactive, inject } from 'vue';
 import PrimaryButton from './PrimaryButton.vue';
+import type { ProjectGateway } from '@/types/Gateways';
+
+const gateway = inject<ProjectGateway>('projectGateway') as ProjectGateway
 
 const title = ref<HTMLInputElement>()
 
-const form = reactive({
+const form = reactive<ProjectAddFormDTO>({
     title: '',
     description: '',
     dueDate: ''
 })
+
+async function submit() {
+    try {
+        gateway.add(form)
+    } catch (error) {
+        // TODO: Show toast
+    }
+}
 
 onMounted(() => {
     title.value?.focus()
@@ -19,21 +30,21 @@ onMounted(() => {
     <div data-project-add-form>
         <div class="grid gap-6 md:grid-cols-2">
             <div class="mb-4">
-                <input ref="title" type="text" id="title" v-model="form.title" class="borderless-input"
+                <input data-input-title ref="title" type="text" id="title" v-model="form.title" class="borderless-input"
                     placeholder="Título do projeto..." required />
             </div>
 
             <div class="mb-4">
-                <input type="date" id="dueDate" v-model="form.dueDate" class="borderless-input" required />
+                <input data-input-due-date type="date" id="dueDate" v-model="form.dueDate" class="borderless-input" required />
             </div>
         </div>
 
         <div class="mb-4">
-            <textarea id="description" rows="4" v-model="form.description" class="borderless-input h-16"
+            <textarea data-input-description id="description" rows="4" v-model="form.description" class="borderless-input h-16"
                 placeholder="Descrição do projeto"></textarea>
         </div>
 
-        <PrimaryButton>
+        <PrimaryButton data-input-submit-button @click="submit">
             Adicionar Projeto
         </PrimaryButton>
     </div>

@@ -67,7 +67,7 @@ class ProjectController extends Controller
      */
     public function edit(GetProject $getProject, string $id)
     {
-        return Inertia::render('Project/Project', [
+        return Inertia::render('Project/ProjectEdit', [
             'project' => $getProject->execute($id)
         ]);
     }

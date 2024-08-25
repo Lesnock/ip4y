@@ -10,9 +10,7 @@ export type SubmitResponse = {
 
 export class ProjectUpdateForm {
     private _fields: ProjectUpdateFormDTO
-
     private _savedFields: ProjectUpdateFormDTO
-
     private _gateway: ProjectGateway
 
     constructor(gateway: ProjectGateway) {
@@ -26,8 +24,6 @@ export class ProjectUpdateForm {
 
         this._fields = reactive<ProjectUpdateFormDTO>({ ...structure })
         this._savedFields = reactive<ProjectUpdateFormDTO>({ ...structure })
-
-        console.log(this._fields, this._savedFields)
     }
 
     data() {

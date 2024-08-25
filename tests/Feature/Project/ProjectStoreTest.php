@@ -4,12 +4,11 @@ namespace Tests\Unit\Controllers;
 
 use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;
+use App\Models\Project;
 use App\Models\User;
 use App\UseCases\CreateProject\CreateProject;
-use App\UseCases\CreateProject\OutputData;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use DateTime;
 
 class ProjectStoreTest extends TestCase
 {
@@ -18,27 +17,21 @@ class ProjectStoreTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->markTestSkipped('Transformar em integração');
         $this->actingAs(User::factory()->create());
     }
 
-    public function testResponseIsOk()
+    public function testProjectIsCreated()
     {
-        $useCaseMock = $this->createMock(CreateProject::class);
-        $useCaseMock->method('execute')->willReturn(new OutputData(['id' => 1]));
-        $this->instance(CreateProject::class, $useCaseMock);
-
-        $yesterday = new DateTime();
-        $yesterday->modify('+1 day');
-        $due_date = $yesterday->format('Y-m-d h:i:s');
-
         $response = $this->post('/projects', [
             'title' => 'title',
             'description' => 'description',
-            'due_date' => $due_date,
+            'due_date' => '2099-01-01',
         ]);
 
         $response->assertStatus(201);
+        $data = $response->decodeResponseJson();
+        $project = Project::find($data['project']['id']);
+        $this->assertNotNull($project);
     }
 
     public function testResponseIsBadRequestWhenClientExceptionIsThrown()

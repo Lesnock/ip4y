@@ -27,6 +27,7 @@ class ProjectRepositoryEloquent implements ProjectRepository
             return $row->id;
         }
 
+        unset($data['id']);
         ProjectModel::where('id', $project->getId())->update($data);
         return $project->getId();
     }

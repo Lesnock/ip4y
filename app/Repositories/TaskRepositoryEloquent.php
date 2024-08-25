@@ -34,6 +34,7 @@ class TaskRepositoryEloquent implements TaskRepository
             return $row->id;
         }
 
+        unset($data['id']);
         TaskModel::where('id', $task->getId())->update($data);
         return $task->getId();
     }

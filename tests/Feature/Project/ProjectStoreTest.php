@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Controllers;
+namespace Tests\Feature\Project;
 
 use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;

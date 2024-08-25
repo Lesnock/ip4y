@@ -6,7 +6,7 @@ use App\Models\Project;
 use App\Models\User;
 use Tests\TestCase;
 
-class ProjectDeleteTest extends TestCase
+class TaskDeleteTest extends TestCase
 {
     public function setUp(): void
     {

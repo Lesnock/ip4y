@@ -5,12 +5,14 @@ namespace Tests\Feature\Project;
 use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use App\UseCases\UpdateProject\UpdateProject;
+use App\UseCases\UpdateTask\UpdateTask;
 use Tests\TestCase;
 use DateTime;
 
-class ProjectUpdateTest extends TestCase
+class TaskUpdateTest extends TestCase
 {
     public function setUp(): void
     {
@@ -18,46 +20,61 @@ class ProjectUpdateTest extends TestCase
         $this->actingAs(User::factory()->create());
     }
 
-    public function testProjectTitleIsUpdated()
+    public function testTaskTitleIsUpdated()
     {
         $project = Project::factory()->create();
-        $response = $this->patch("/projects/$project->id", [
+        $user = User::factory()->create();
+        $task = Task::factory()->create([
+            'project_id' => $project->id,
+            'responsible_id' => $user->id
+        ]);
+        $response = $this->patch("/tasks/$task->id", [
             'title' => 'changed',
         ]);
         $response->assertStatus(200);
-        $saved = Project::find($project->id);
+        $saved = Task::find($task->id);
         $this->assertEquals($saved->title, 'changed');
     }
 
     public function testProjectDescriptionIsUpdated()
     {
         $project = Project::factory()->create();
-        $response = $this->patch("/projects/$project->id", [
+        $user = User::factory()->create();
+        $task = Task::factory()->create([
+            'project_id' => $project->id,
+            'responsible_id' => $user->id
+        ]);
+        $response = $this->patch("/tasks/$task->id", [
             'description' => 'changed',
         ]);
         $response->assertStatus(200);
-        $saved = Project::find($project->id);
+        $saved = Task::find($task->id);
         $this->assertEquals($saved->description, 'changed');
     }
 
     public function testProjectDueDateIsUpdated()
     {
         $project = Project::factory()->create();
-        $response = $this->patch("/projects/$project->id", [
+        $user = User::factory()->create();
+        $task = Task::factory()->create([
+            'project_id' => $project->id,
+            'responsible_id' => $user->id
+        ]);
+        $response = $this->patch("/tasks/$task->id", [
             'due_date' => '2099-01-01',
         ]);
         $response->assertStatus(200);
-        $saved = Project::find($project->id);
+        $saved = Task::find($task->id);
         $this->assertStringContainsString('2099-01-01', $saved->due_date); // Using contains to ignore time...
     }
 
     public function testResponseIsBadRequestWhenClientExceptionIsThrown()
     {
-        $useCaseMock = $this->createMock(UpdateProject::class);
+        $useCaseMock = $this->createMock(UpdateTask::class);
         $useCaseMock->method('execute')->willThrowException(new ClientException);
-        $this->instance(UpdateProject::class, $useCaseMock);
+        $this->instance(UpdateTask::class, $useCaseMock);
 
-        $response = $this->patch('/projects/1', [
+        $response = $this->patch('/tasks/1', [
             'title' => 'title',
         ]);
 
@@ -66,11 +83,11 @@ class ProjectUpdateTest extends TestCase
 
     public function testResponseIsInternalServerErrorWhenServerExceptionIsThrown()
     {
-        $useCaseMock = $this->createMock(UpdateProject::class);
-        $useCaseMock->method('execute')->willThrowException(new ServerException());
-        $this->instance(UpdateProject::class, $useCaseMock);
+        $useCaseMock = $this->createMock(UpdateTask::class);
+        $useCaseMock->method('execute')->willThrowException(new ServerException);
+        $this->instance(UpdateTask::class, $useCaseMock);
 
-        $response = $this->patch('/projects/1', [
+        $response = $this->patch('/tasks/1', [
             'title' => 'title',
         ]);
 

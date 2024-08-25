@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/projects', [ProjectController::class, 'index'])->name('dashboard');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/projects/{id}', [ProjectController::class, 'edit'])->name('project.edit');
     Route::get('/projects/add', [ProjectController::class, 'create'])->name('project.create');
     Route::post('/projects', [ProjectController::class, 'store'])->name('project.store');

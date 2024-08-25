@@ -23,7 +23,7 @@ class ProjectController extends Controller
      */
     public function index(ListProject $listProject)
     {
-        return Inertia::render('Projects', [
+        return Inertia::render('Project/Projects', [
             'projects' => $listProject->execute()
         ]);
     }
@@ -67,7 +67,7 @@ class ProjectController extends Controller
      */
     public function edit(GetProject $getProject, string $id)
     {
-        return Inertia::render('Project', [
+        return Inertia::render('Project/Project', [
             'project' => $getProject->execute($id)
         ]);
     }

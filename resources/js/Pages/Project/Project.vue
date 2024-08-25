@@ -2,6 +2,7 @@
 import ProjectList from '@/Components/ProjectList.vue';
 import ProjectUpdateForm from '@/Components/ProjectUpdateForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import DangerButton from '@/Components/DangerButton.vue'
 import { Project } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -25,10 +26,15 @@ function onAddProject(project: Project) {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2
-                class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight flex align-items justify-between items-center">
-                <span>Projeto # {{ project.id }}</span>
-            </h2>
+            <div class="flex items-center justify-between">
+
+                <h2
+                    class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight flex align-items justify-between items-center">
+                    <span>Projeto # {{ project.id }}</span>
+                </h2>
+
+                <DangerButton>Excluir projeto</DangerButton>
+            </div>
 
             <ProjectUpdateForm :project="project" @add="onAddProject" />
         </template>

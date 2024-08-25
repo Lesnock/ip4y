@@ -2,10 +2,7 @@
 import type { ProjectGateway } from '@/types/gateways.d.ts';
 import { onMounted, ref, inject } from 'vue';
 import toastr from 'toastr'
-import { ProjectAddForm } from '@/Forms/ProjectAddForm';
-import { delay } from '@/helpers';
 import Loading from './Loading.vue';
-import PrimaryButton from './PrimaryButton.vue'
 import { Project } from '@/types';
 import { ProjectUpdateForm } from '@/Forms/ProjectUpdateForm';
 import { ProjectUpdateFormDTO } from '@/types/dto';
@@ -19,10 +16,6 @@ const gateway = inject('projectGateway') as ProjectGateway
 const emit = defineEmits(['add'])
 const form = new ProjectUpdateForm(gateway);
 const isLoading = ref(false)
-
-async function submit() {
-    
-}
 
 async function save(field: keyof ProjectUpdateFormDTO) {
     const error = await form.patch(props.project.id, field)

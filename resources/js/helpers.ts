@@ -10,3 +10,9 @@ export function delay(ms = 500) {
         setTimeout(res, ms)
     })
 }
+
+export function isValidDate(date?: string): boolean {
+    if (!date) return false
+    const dateObj = new Date(date)
+    return !isNaN(dateObj.getTime());
+}

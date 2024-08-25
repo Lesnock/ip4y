@@ -24,8 +24,8 @@ type Task = {
     title: string;
     description: string;
     status: 'pending' | 'in-progress' | 'completed';
-    project_id: number | null;
-    responsible_id: number | null;
+    project_id: number;
+    responsible_id: number;
     responsible?: User;
     due_date: Date,
 }

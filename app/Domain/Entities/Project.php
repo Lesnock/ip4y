@@ -61,7 +61,7 @@ class Project extends Entity
     public function setDescription(string $description)
     {
         if (empty($description)) {
-            throw new EntityBuildValidationException("O título do projeto deve conter pelo menos 1 caractere");
+            throw new EntityBuildValidationException("A descrição do projeto deve conter pelo menos 1 caractere");
         }
         $this->description = $description;
         return $this;
@@ -88,7 +88,7 @@ class Project extends Entity
         return $this->description;
     }
 
-    public function getdue_date()
+    public function getDueDate()
     {
         return $this->due_date;
     }
@@ -96,10 +96,10 @@ class Project extends Entity
     public function toArray(): array
     {
         return [
-            'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'due_date' => $this->due_date
+            'id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'due_date' => $this->getDueDate()
         ];
     }
 }

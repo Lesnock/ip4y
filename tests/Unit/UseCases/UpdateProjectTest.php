@@ -34,7 +34,7 @@ class UpdateProjectTest extends TestCase
 
         $this->assertEquals($project->getTitle(), $input->title);
         $this->assertEquals($project->getDescription(), $input->description);
-        $this->assertEquals($project->getdue_date()->format('Y-m-d h:i:s'), $input->due_date);
+        $this->assertEquals($project->getDueDate()->format('Y-m-d h:i:s'), $input->due_date);
     }
 
     public function testProjectIsNotFound()

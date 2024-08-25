@@ -37,7 +37,7 @@ class CreateProjectInputDataBuilder
         return $this;
     }
 
-    public function withInvaliddue_date()
+    public function withInvalidDueDate()
     {
         $yesterday = new DateTime();
         $yesterday->modify('-1 day');

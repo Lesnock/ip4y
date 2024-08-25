@@ -7,13 +7,12 @@ use App\Domain\Exceptions\EntityBuildValidationException;
 use Tests\TestCase;
 use DateTime;
 
-class ProjectTest extends TestCase
+class TaskTest extends TestCase
 {
-    public function testValidProjectIsCreated()
+    public function testValidEntityIsCreated()
     {
         $due_date = new DateTime;
         $due_date->modify('+1 day');
-        $due_date = $due_date->format('Y-m-d');
         $project = Project::build('title', 'description', $due_date);
 
         $this->assertEquals($project->toArray(), [
@@ -27,13 +26,13 @@ class ProjectTest extends TestCase
     public function testProjectIsNotCreatedWithEmptyTitle()
     {
         $this->expectException(EntityBuildValidationException::class);
-        Project::build('', 'description', (new DateTime())->format('Y-m-d'));
+        Project::build('', 'description', new DateTime());
     }
 
     public function testProjectIsNotCreatedWithEmptyDescription()
     {
         $this->expectException(EntityBuildValidationException::class);
-        Project::build('title', '', (new DateTime())->format('Y-m-d'));
+        Project::build('title', '', new DateTime());
     }
 
     public function testProjectCannotBeCreatedWithPasseddue_date()
@@ -41,6 +40,6 @@ class ProjectTest extends TestCase
         $this->expectException(EntityBuildValidationException::class);
         $yesterday = new DateTime;
         $yesterday->modify('-1 day');
-        Project::build('title', '', $yesterday->format('Y-m-d'), null);
+        Project::build('title', '', $yesterday, null);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\UseCases\UpdateProject;
 
-use App\Domain\Entities\Project;
 use App\Exceptions\EntityNotFoundException;
 use App\Repositories\Contracts\ProjectRepository;
 use App\Utils\UseCaseExceptionHandler;
@@ -34,7 +33,7 @@ class UpdateProject
                 switch ($field) {
                     case 'title': $project->setTitle($value); break;
                     case 'description': $project->setDescription($value); break;
-                    case 'due_date': $project->setDueDate(new DateTime($value)); break;
+                    case 'due_date': $project->setDueDate($value); break;
                 }
             }
             $this->projectRepository->save($project);

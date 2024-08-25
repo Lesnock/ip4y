@@ -30,12 +30,13 @@ class Project extends Entity
     private function __construct()
     {}
 
-    public static function build(string $title, string $description, DateTime $due_date, ?int $id = null)
+    public static function build(string $title, string $description, string $due_date, ?int $id = null)
     {
         // Se não possui ID, significa que um novo projeto está sendo criado
         // Neste caso não podemos permitir que a data de conclusão seja antes de "agora"
         $today = (new DateTime)->setTime(0, 0);
-        if (!$id && $due_date < $today) {
+        $dueDateDateTime = new DateTime($due_date);
+        if (!$id && $dueDateDateTime < $today) {
             throw new EntityBuildValidationException("A data de conclusão já passou");
         }
 
@@ -67,9 +68,9 @@ class Project extends Entity
         return $this;
     }
 
-    public function setDueDate(DateTime $due_date)
+    public function setDueDate(string $due_date)
     {
-        $this->due_date = $due_date;
+        $this->due_date = new DateTime($due_date);
         return $this;
     }
 
@@ -90,7 +91,7 @@ class Project extends Entity
 
     public function getDueDate()
     {
-        return $this->due_date;
+        return $this->due_date->format('Y-m-d');
     }
 
     public function toArray(): array

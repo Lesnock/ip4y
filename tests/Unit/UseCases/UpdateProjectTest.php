@@ -6,69 +6,76 @@ use App\Domain\Entities\Project;
 use App\Exceptions\EntityNotFoundException;
 use App\Http\Exceptions\ClientException;
 use App\Repositories\Contracts\ProjectRepository;
-use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\UpdateProject\UpdateProject;
-use Tests\Builders\UpdateProjectInputDataBuilder;
 use Tests\TestCase;
 use DateTime;
 
 class UpdateProjectTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
+
     protected function createProject(): Project
     {
         $due_date = new DateTime;
         $due_date->modify('+1 day');
-        return Project::build('title', 'description', $due_date, 1);
+        return Project::build('title', 'description', $due_date->format('Y-m-d'), 1);
     }
 
-    public function testUpdateProject()
+    public function testUpdateProjectFields()
     {
         $project = $this->createProject();
-        $input = UpdateProjectInputDataBuilder::aProject()->build();
         $projectRepositoryMock = $this->createMock(ProjectRepository::class);
         $projectRepositoryMock->expects($this->once())->method('getById')->with(1)->willReturn($project);
         $projectRepositoryMock->expects($this->once())->method('save');
 
         $usecase = new UpdateProject($projectRepositoryMock);
-        $usecase->execute($project->getId(), $input);
+        $usecase->execute($project->getId(), [
+            'title' => 'New title',
+            'description' => 'New description',
+            'due_date' => '2099-01-01'
+        ]);
 
-        $this->assertEquals($project->getTitle(), $input->title);
-        $this->assertEquals($project->getDescription(), $input->description);
-        $this->assertEquals($project->getDueDate()->format('Y-m-d h:i:s'), $input->due_date);
+        $this->assertEquals($project->getTitle(), 'New title');
+        $this->assertEquals($project->getDescription(), 'New description');
+        $this->assertEquals($project->getDueDate(), '2099-01-01');
     }
 
     public function testProjectIsNotFound()
     {
         $this->expectException(EntityNotFoundException::class);
-        $input = UpdateProjectInputDataBuilder::aProject()->withInvalidTitle()->build();
         $projectRepositoryMock = $this->createMock(ProjectRepository::class);
         $projectRepositoryMock->expects($this->once())->method('getById')->with(1)->willReturn(null);
 
         $usecase = new UpdateProject($projectRepositoryMock);
-        $usecase->execute(id: 1, input: $input);
+        $usecase->execute(1, []);
     }
 
-    public function testProjectIsNotCreatedWithInvalidTitle()
+    public function testProjectIsNotUpdatedWithInvalidTitle()
     {
         $this->expectException(ClientException::class);
         $project = $this->createProject();
-        $input = UpdateProjectInputDataBuilder::aProject()->withInvalidTitle()->build();
         $projectRepositoryMock = $this->createMock(ProjectRepository::class);
         $projectRepositoryMock->expects($this->once())->method('getById')->with(1)->willReturn($project);
 
         $usecase = new UpdateProject($projectRepositoryMock);
-        $usecase->execute($project->getId(), $input);
+        $usecase->execute($project->getId(), [
+            'title' => ''
+        ]);
     }
 
-    public function testProjectIsNotCreatedWithInvalidDescription()
+    public function testProjectIsNotUpdatedWithInvalidDescription()
     {
         $this->expectException(ClientException::class);
         $project = $this->createProject();
-        $input = UpdateProjectInputDataBuilder::aProject()->withInvalidDescription()->build();
         $projectRepositoryMock = $this->createMock(ProjectRepository::class);
         $projectRepositoryMock->expects($this->once())->method('getById')->with(1)->willReturn($project);
 
         $usecase = new UpdateProject($projectRepositoryMock);
-        $usecase->execute($project->getId(), $input);
+        $usecase->execute($project->getId(), [
+            'description' => ''
+        ]);
     }
 }

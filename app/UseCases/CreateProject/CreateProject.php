@@ -23,7 +23,7 @@ class CreateProject
     public function execute(InputData $input): ?OutputData
     {
         try {
-            $project = Project::build($input->title, $input->description, new DateTime($input->due_date));
+            $project = Project::build($input->title, $input->description, $input->due_date);
             $id = $this->projectRepository->save($project);
             return new OutputData(['id' => $id]);
         } catch (\Exception $error) {

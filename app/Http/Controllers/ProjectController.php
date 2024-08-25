@@ -8,6 +8,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\CreateProject\InputData as CreateProjectInputData;
+use App\UseCases\DeleteProject\DeleteProject;
 use App\UseCases\GetProject\GetProject;
 use App\UseCases\ListProject\ListProject;
 use App\UseCases\UpdateProject\InputData as UpdateProjectInputData;
@@ -91,8 +92,15 @@ class ProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(DeleteProject $deleteProject, string $id)
     {
-        //
+        try {
+            $deleteProject->execute($id);
+            return response()->json([
+                'status' => true,
+            ], Response::HTTP_OK); // 200
+        } catch (ClientException | ServerException $error) {
+            return ControllerExceptionHandler::handle($error);
+        }
     }
 }

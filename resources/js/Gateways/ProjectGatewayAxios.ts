@@ -1,5 +1,5 @@
 import { Project } from "@/types";
-import { ProjectAddFormDTO } from "@/types/dto";
+import { ProjectAddFormDTO, ProjectUpdateFormDTO } from "@/types/dto";
 import { ProjectGateway } from "@/types/gateways";
 import axios, { Axios, AxiosError } from "axios";
 
@@ -41,7 +41,40 @@ export class ProjectGatewayAxios implements ProjectGateway {
         }
     }
 
-    patch(): Promise<void> {
-        throw new Error("Method not implemented.");
+    async patch(form: ProjectUpdateFormDTO): Promise<void|string> {
+        try {
+            await this.client.patch('/projects', form)
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                // Domain error
+                if (error.response?.data.error) {
+                    return error.response?.data.error
+                }
+
+                // Form request error
+                if (error.response?.data.errors) {
+                    const message = []
+                    for (const field in error.response.data.errors) {
+                        message.push(error.response.data.errors[field])
+                    }
+                    return message.join('<br>')
+                }
+            }
+
+            return (error as Error).message
+        }
+    }
+
+    async delete(id: number): Promise<void|string> {
+         try {
+            await this.client.delete(`/projects/${id}`)
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                if (error.response?.data.error) {
+                    return error.response?.data.error
+                }
+            }
+            return (error as Error).message
+        }
     }
 }

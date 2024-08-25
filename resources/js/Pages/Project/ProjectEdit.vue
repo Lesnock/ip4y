@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ProjectList from '@/Components/ProjectList.vue';
 import ProjectUpdateForm from '@/Components/ProjectUpdateForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DangerButton from '@/Components/DangerButton.vue'
+import DeleteProjectButton from '@/Components/DeleteProjectButton.vue';
 import { Project } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -33,7 +33,7 @@ function onAddProject(project: Project) {
                     <span>Projeto # {{ project.id }}</span>
                 </h2>
 
-                <DangerButton>Excluir projeto</DangerButton>
+                <DeleteProjectButton :project="project">Excluir projeto</DeleteProjectButton>
             </div>
 
             <ProjectUpdateForm :project="project" @add="onAddProject" />

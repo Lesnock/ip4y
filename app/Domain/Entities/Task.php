@@ -30,7 +30,7 @@ class Task extends Entity
         string $title, 
         string $description, 
         string $status, 
-        DateTime $due_date, 
+        string $due_date, 
         int $project_id, 
         int $responsible_id, 
         ?int $id = null
@@ -38,7 +38,8 @@ class Task extends Entity
         // Se não possui ID, significa que uma nova tarefa está sendo criado
         // Neste caso não podemos permitir que a data de vencimento seja antes de "agora"
         $today = (new DateTime)->setTime(0, 0);
-        if (!$id && $due_date < $today) {
+        $dueDateDateTime = new DateTime($due_date);
+        if (!$id && $dueDateDateTime < $today) {
             throw new EntityBuildValidationException("A data de conclusão já passou");
         }
 
@@ -91,9 +92,9 @@ class Task extends Entity
         return $this;
     }
 
-    public function setDueDate(DateTime $due_date)
+    public function setDueDate(string $due_date)
     {
-        $this->due_date = $due_date;
+        $this->due_date = new DateTime($due_date);
         return $this;
     }
 
@@ -129,7 +130,7 @@ class Task extends Entity
 
     public function getDueDate()
     {
-        return $this->due_date;
+        return $this->due_date->format('Y-m-d');
     }
 
     public function toArray(): array

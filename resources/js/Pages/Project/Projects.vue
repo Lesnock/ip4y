@@ -4,7 +4,7 @@ import ProjectAddForm from '@/Components/ProjectAddForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Project } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 
 type Props = {
     projects: Project[]

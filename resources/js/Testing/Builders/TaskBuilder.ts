@@ -1,14 +1,20 @@
 import type { Task, User } from "@/types"
+import { UserBuilder } from "./UserBuilder";
 
 export class TaskBuilder {
     private task: Task
 
     private constructor() {
+        const user = UserBuilder.aUser().build()
         this.task = {
+            id: 1,
             title: 'Title',
             description: 'Description',
-            responsible_id: null,
-            status: 'pending'
+            responsible_id: user.id,
+            responsible: user,
+            project_id: 1,
+            status: 'pending',
+            due_date: new Date()
         }
     }
 

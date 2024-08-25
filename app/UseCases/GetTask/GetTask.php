@@ -12,7 +12,7 @@ class GetTask
     public function execute(int $id)
     {
         try {
-            return Task::findOrFail($id);
+            return Task::with('responsible')->findOrFail($id);
         } catch (\Exception $error) {
             if ($error instanceof ModelNotFoundException) {
                 throw new EntityNotFoundException("Tarefa não encontrada");

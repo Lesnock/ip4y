@@ -6,9 +6,11 @@ import { createApp, h, DefineComponent } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import { Project } from './types';
+import { Project, User } from './types';
 import { ProjectBuilder } from './Testing/Builders/ProjectBuilder';
 import { ProjectGatewayAxios } from './Gateways/ProjectGatewayAxios';
+import { TaskBuilder } from './Testing/Builders/TaskBuilder';
+import { UserBuilder } from './Testing/Builders/UserBuilder';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -19,8 +21,13 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .provide<Project[]>('projects', [
-                ProjectBuilder.aProject().build(),
+            .provide<Project>('project', 
+                ProjectBuilder.aProject().withTask(TaskBuilder.aTask().build()).build(),
+            )
+            .provide<User[]>('users', [
+                UserBuilder.aUser().build(),
+                UserBuilder.aUser().build(),
+                UserBuilder.aUser().build(),
             ])
             .provide('projectGateway', new ProjectGatewayAxios)
             .mount(el);

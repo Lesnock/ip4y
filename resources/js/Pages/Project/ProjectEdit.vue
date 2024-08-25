@@ -3,9 +3,10 @@ import ProjectUpdateForm from '@/Components/ProjectUpdateForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DangerButton from '@/Components/DangerButton.vue'
 import DeleteProjectButton from '@/Components/DeleteProjectButton.vue';
-import { Project } from '@/types';
+import { Project, User } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
+import TaskList from '@/Components/TaskList.vue';
 
 type Props = {
     project: Project
@@ -13,7 +14,9 @@ type Props = {
 
 const props = defineProps<Props>()
 
-const project = ref(props.project)
+// const project = ref(props.project)
+const project = inject('project') as Project
+const users = inject('users') as User[]
 
 function onAddProject(project: Project) {
     // projects.value.unshift(project)
@@ -42,7 +45,7 @@ function onAddProject(project: Project) {
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="mt-6">
                 <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Tarefas</h2>
-                <!-- <ProjectList :projects="projects" /> -->
+                <TaskList :tasks="project.tasks" :users="users" />
             </div>
         </div>
     </AuthenticatedLayout>

@@ -1,16 +1,14 @@
 <?php
 
-namespace Tests\Feature\Project;
+namespace Tests\Feature\Task;
 
 use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use App\UseCases\UpdateProject\UpdateProject;
 use App\UseCases\UpdateTask\UpdateTask;
 use Tests\TestCase;
-use DateTime;
 
 class TaskUpdateTest extends TestCase
 {

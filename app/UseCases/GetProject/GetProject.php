@@ -12,7 +12,7 @@ class GetProject
     public function execute(int $id)
     {
         try {
-            return Project::with('tasks.user')->findOrFail($id);
+            return Project::with('tasks.responsible')->findOrFail($id);
         } catch (\Exception $error) {
             if ($error instanceof ModelNotFoundException) {
                 throw new EntityNotFoundException("Projeto não encontrado");

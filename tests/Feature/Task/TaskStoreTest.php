@@ -1,13 +1,12 @@
 <?php
 
-namespace Tests\Feature\Project;
+namespace Tests\Feature\Task;
 
 use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
-use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\CreateTask\CreateTask;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

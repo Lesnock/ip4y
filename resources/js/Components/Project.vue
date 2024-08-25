@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Project } from '@/types';
 import { computed } from 'vue';
-import PrimaryButton from './PrimaryButton.vue';
 
 const props = defineProps<{
     project: Project

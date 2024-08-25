@@ -10,7 +10,7 @@ class ListProject
     public function execute()
     {
         try {
-            return Project::with('tasks.user')->orderBy('id', 'desc')->get();
+            return Project::with('tasks.responsible')->orderBy('id', 'desc')->get();
         } catch (\Exception $error) {
             UseCaseExceptionHandler::handle($error);
         }

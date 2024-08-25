@@ -18,8 +18,8 @@ class Task extends Model
         'due_date',
     ];
 
-    public function user()
+    public function responsible()
     {
-        return $this->hasOne(User::class, 'responsible_id');
+        return $this->hasOne(User::class, 'id', 'responsible_id');
     }
 }

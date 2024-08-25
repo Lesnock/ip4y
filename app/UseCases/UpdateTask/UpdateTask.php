@@ -3,8 +3,11 @@
 namespace App\UseCases\UpdateTask;
 
 use App\Exceptions\EntityNotFoundException;
+use App\Models\User;
+use App\Notifications\TaskUpdated;
 use App\Repositories\Contracts\TaskRepository;
 use App\Utils\UseCaseExceptionHandler;
+use Illuminate\Support\Facades\DB;
 
 class UpdateTask
 {
@@ -38,8 +41,13 @@ class UpdateTask
                     case 'due_date': $task->setDueDate($value); break;
                 }
             }
+            DB::beginTransaction();
             $this->taskRepository->save($task);
+            $user = User::find($task->getResponsibleId());
+            $user->notify(new TaskUpdated($task));
+            DB::commit();
         } catch (\Exception $error) {
+            DB::rollBack();
             UseCaseExceptionHandler::handle($error);
         }
     }

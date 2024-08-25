@@ -7,7 +7,9 @@ use App\Http\Exceptions\ServerException;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
+use App\Notifications\TaskUpdated;
 use App\UseCases\UpdateTask\UpdateTask;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class TaskUpdateTest extends TestCase
@@ -34,7 +36,7 @@ class TaskUpdateTest extends TestCase
         $this->assertEquals($saved->title, 'changed');
     }
 
-    public function testProjectDescriptionIsUpdated()
+    public function testTaskDescriptionIsUpdated()
     {
         $project = Project::factory()->create();
         $user = User::factory()->create();
@@ -50,7 +52,7 @@ class TaskUpdateTest extends TestCase
         $this->assertEquals($saved->description, 'changed');
     }
 
-    public function testProjectDueDateIsUpdated()
+    public function testTaskDueDateIsUpdated()
     {
         $project = Project::factory()->create();
         $user = User::factory()->create();
@@ -64,6 +66,24 @@ class TaskUpdateTest extends TestCase
         $response->assertStatus(200);
         $saved = Task::find($task->id);
         $this->assertStringContainsString('2099-01-01', $saved->due_date); // Using contains to ignore time...
+    }
+
+    public function testNotificationIsSent()
+    {
+        Notification::fake();
+        $project = Project::factory()->create();
+        $user = User::factory()->create();
+        $task = Task::factory()->create([
+            'project_id' => $project->id,
+            'responsible_id' => $user->id
+        ]);
+        $response = $this->patch("/tasks/$task->id", [
+            'due_date' => '2099-01-01',
+        ]);
+        $response->assertStatus(200);
+        $saved = Task::find($task->id);
+        $this->assertStringContainsString('2099-01-01', $saved->due_date); // Using contains to ignore time...
+        Notification::assertSentTo([$user], TaskUpdated::class);
     }
 
     public function testResponseIsBadRequestWhenClientExceptionIsThrown()

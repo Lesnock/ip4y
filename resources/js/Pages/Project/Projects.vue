@@ -33,15 +33,13 @@ function onAddProject(project: Project) {
             </h2>
         </template>
 
-        <div class="py-6">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Novo projeto</h2>
-                <ProjectAddForm @add="onAddProject" />
-                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                <div class="mt-6">
-                    <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Projetos</h2>
-                    <ProjectList :projects="projects" />
-                </div>
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h2 class="block text-lg font-medium text-gray-900 dark:text-white">Novo projeto</h2>
+            <ProjectAddForm @add="onAddProject" />
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+            <div class="mt-6">
+                <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Projetos</h2>
+                <ProjectList :projects="projects" />
             </div>
         </div>
     </AuthenticatedLayout>

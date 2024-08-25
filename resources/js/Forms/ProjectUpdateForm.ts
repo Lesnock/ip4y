@@ -11,6 +11,8 @@ export type SubmitResponse = {
 export class ProjectUpdateForm {
     private _fields: ProjectUpdateFormDTO
 
+    private _savedFields: ProjectUpdateFormDTO
+
     private _gateway: ProjectGateway
 
     constructor(gateway: ProjectGateway) {
@@ -23,13 +25,33 @@ export class ProjectUpdateForm {
         }
 
         this._fields = reactive<ProjectUpdateFormDTO>({ ...structure })
+        this._savedFields = reactive<ProjectUpdateFormDTO>({ ...structure })
+
+        console.log(this._fields, this._savedFields)
     }
 
     data() {
         return this._fields
     }
 
-    patch(): void {
-        this._gateway.patch({ ...this._fields })
+    saved() {
+        return this._savedFields
+    }
+
+    fill(data: ProjectUpdateFormDTO) {
+        for (const field in data) {
+            const fieldName = field as keyof ProjectUpdateFormDTO
+            this._fields[fieldName] = data[fieldName]
+            this._savedFields[fieldName] = data[fieldName]
+        }
+    }
+
+    async patch(field: keyof ProjectUpdateFormDTO): Promise<void> {
+        try {
+            await this._gateway.patch({ [field]: this._fields[field] })
+            this._savedFields[field] = this._fields[field] // Updated saved field
+        } catch (error) {
+            throw error
+        }
     }
 }

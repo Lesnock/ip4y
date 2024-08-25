@@ -15,16 +15,12 @@ class ProjectRepositoryEloquent implements ProjectRepository
         if (!$row) {
             return null;
         }
-        return Project::build($row->title, $row->description, Carbon::parse($row->due_date)->toDateTime(), $row->id);
+        return Project::build($row->title, $row->description, $row->due_date, $row->id);
     }
 
     public function save(Project $project): int
     {
-        $data = [
-            'title' => $project->getTitle(),
-            'description' => $project->getDescription(),
-            'due_date' => $project->getDueDate()->format('Y-m-d h:i:s'),
-        ];
+        $data = $project->toArray();
 
         if (!$project->getId()) {
             $row = ProjectModel::create($data);

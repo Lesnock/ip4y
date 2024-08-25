@@ -6,6 +6,7 @@ use App\Http\Exceptions\ClientException;
 use App\Http\Exceptions\ServerException;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\User;
 use App\UseCases\CreateProject\CreateProject;
 use App\UseCases\CreateProject\InputData as CreateProjectInputData;
 use App\UseCases\DeleteProject\DeleteProject;
@@ -48,7 +49,8 @@ class ProjectController extends Controller
     public function edit(GetProject $getProject, string $id)
     {
         return Inertia::render('Project/ProjectEdit', [
-            'project' => $getProject->execute($id)
+            'project' => $getProject->execute($id),
+            'users' => User::all()
         ]);
     }
 

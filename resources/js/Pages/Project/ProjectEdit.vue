@@ -3,23 +3,24 @@ import ProjectUpdateForm from '@/Components/ProjectUpdateForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DangerButton from '@/Components/DangerButton.vue'
 import DeleteProjectButton from '@/Components/DeleteProjectButton.vue';
-import { Project, User } from '@/types';
+import { Project, Task, User } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { inject, ref } from 'vue';
 import TaskList from '@/Components/TaskList.vue';
+import TaskAddForm from '@/Components/TaskAddForm.vue';
 
 type Props = {
     project: Project
+    users: User[]
 }
 
 const props = defineProps<Props>()
 
-// const project = ref(props.project)
-const project = inject('project') as Project
-const users = inject('users') as User[]
+const project = ref(props.project)
+// const project = inject('project') as Project
 
-function onAddProject(project: Project) {
-    // projects.value.unshift(project)
+function onAddTask(task: Task) {
+    props.project.tasks.push(task)
 }
 </script>
 
@@ -39,13 +40,18 @@ function onAddProject(project: Project) {
                 <DeleteProjectButton :project="project">Excluir projeto</DeleteProjectButton>
             </div>
 
-            <ProjectUpdateForm :project="project" @add="onAddProject" />
+            <ProjectUpdateForm :project="project" />
         </template>
 
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="mt-6">
                 <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Tarefas</h2>
                 <TaskList :tasks="project.tasks" :users="users" />
+
+                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
+                <h2 class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Nova tarefa</h2>
+                <TaskAddForm :project="project" :users="users" @add="onAddTask" />
             </div>
         </div>
     </AuthenticatedLayout>

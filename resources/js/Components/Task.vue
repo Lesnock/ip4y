@@ -13,7 +13,10 @@ const props = defineProps<{
         class="bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg mb-4 sm:px-2 lg:px-6 p-2 text-gray-900 dark:text-gray-100">
         <div class="flex justify-between items-center flex-wrap gap-4 w-full">
             <div class="flex-1">
-                <div data-title class="text-xl font-semibold"># {{ task.id }} - {{ task.title }}</div>
+                <div data-title class="text-xl font-semibold" 
+                    :class="{ 'line-through': task.status == 'completed' }">
+                    {{ task.title }}
+                </div>
                 <div data-description class="text-gray-400">{{ task.description }}</div>
             </div>
 

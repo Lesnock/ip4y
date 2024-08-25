@@ -11,6 +11,7 @@ import { ProjectBuilder } from './Testing/Builders/ProjectBuilder';
 import { ProjectGatewayAxios } from './Gateways/ProjectGatewayAxios';
 import { TaskBuilder } from './Testing/Builders/TaskBuilder';
 import { UserBuilder } from './Testing/Builders/UserBuilder';
+import { TaskGatewayAxios } from './Gateways/TaskGatewayAxios';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -22,7 +23,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .provide<Project>('project', 
-                ProjectBuilder.aProject().withTask(TaskBuilder.aTask().build()).build(),
+                ProjectBuilder.aProject().withTask(TaskBuilder.aTask().completed().build()).build(),
             )
             .provide<User[]>('users', [
                 UserBuilder.aUser().build(),
@@ -30,6 +31,7 @@ createInertiaApp({
                 UserBuilder.aUser().build(),
             ])
             .provide('projectGateway', new ProjectGatewayAxios)
+            .provide('taskGateway', new TaskGatewayAxios)
             .mount(el);
     },
     progress: {

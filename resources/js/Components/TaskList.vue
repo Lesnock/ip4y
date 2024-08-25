@@ -8,14 +8,18 @@ type Props = {
     users: User[]
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     tasks: () => []
 })
+
+function onDeleteTask(index: number) {
+    props.tasks.splice(index, 1)
+}
 </script>
 
 <template>
     <TransitionGroup name="list" tag="ul">
-        <Task v-for="task in tasks" :key="task.id" :task="task" :users="users" data-task>
+        <Task v-for="(task, index) in tasks" :key="task.id" :task="task" :users="users" data-task @delete="onDeleteTask(index)">
         </Task>
     </TransitionGroup>
 </template>

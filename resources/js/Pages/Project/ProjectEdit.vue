@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import ProjectUpdateForm from '@/Components/ProjectUpdateForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DangerButton from '@/Components/DangerButton.vue'
 import DeleteProjectButton from '@/Components/DeleteProjectButton.vue';
 import { Project, Task, User } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import TaskList from '@/Components/TaskList.vue';
 import TaskAddForm from '@/Components/TaskAddForm.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -21,10 +20,6 @@ const project = ref(props.project)
 
 function onAddTask(task: Task) {
     props.project.tasks.push(task)
-}
-
-function exportPdf() {
-    window.open(route('projects.pdf', { id: props.project.id }))
 }
 </script>
 
@@ -42,7 +37,9 @@ function exportPdf() {
                 </h2>
 
                 <div class="flex gap-2">
-                    <PrimaryButton :project="project" @click="exportPdf">Exportar PDF</PrimaryButton>
+                    <a :href="route('projects.pdf', { id: props.project.id })" target="_blank">
+                        <PrimaryButton :project="project">Exportar PDF</PrimaryButton>
+                    </a>
                     <DeleteProjectButton :project="project">Excluir projeto</DeleteProjectButton>
                 </div>
             </div>

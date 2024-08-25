@@ -3,6 +3,7 @@
 namespace Tests\Feature\Project;
 
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -14,12 +15,17 @@ class TaskDeleteTest extends TestCase
         $this->actingAs(User::factory()->create());
     }
 
-    public function testProjectIsDeleted()
+    public function testTaskIsDeleted()
     {
         $project = Project::factory()->create();
-        $response = $this->delete("/projects/$project->id");
+        $user = User::factory()->create();
+        $task = Task::factory()->create([
+            'project_id' => $project->id,
+            'responsible_id' => $user->id
+        ]);
+        $response = $this->delete("/tasks/$task->id");
         $response->assertStatus(200);
-        $saved = Project::find($project->id);
+        $saved = Task::find($task->id);
         $this->assertNull($saved);
     }
 }

@@ -37,6 +37,9 @@ function onAddTask(task: Task) {
                 </h2>
 
                 <div class="flex gap-2">
+                    <a :href="route('projects.xlsx', { id: props.project.id })" target="_blank">
+                        <PrimaryButton :project="project">Exportar Xlsx</PrimaryButton>
+                    </a>
                     <a :href="route('projects.pdf', { id: props.project.id })" target="_blank">
                         <PrimaryButton :project="project">Exportar PDF</PrimaryButton>
                     </a>

@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy');
     Route::get('/project-export/{id}/pdf', [ProjectExportController::class, 'pdf'])->name('projects.pdf');
+    Route::get('/project-export/{id}/xlsx', [ProjectExportController::class, 'xlsx'])->name('projects.xlsx');
     Route::get('/project-export/{id}/preview', [ProjectExportController::class, 'preview'])->name('projects.pdf.preview');
 
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');

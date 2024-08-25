@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Services\Contracts\PdfService;
+use App\UseCases\ExportProjectPdf\ExportProjectPdf;
+use App\UseCases\ExportProjectXlsx\ExportProjectXlsx;
+use DateTime;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ProjectExportController extends Controller
 {
@@ -15,18 +19,28 @@ class ProjectExportController extends Controller
         return view('project-pdf', compact('project'));
     }
 
-    public function pdf(int $id, PdfService $pdfService)
+    public function pdf(int $id, ExportProjectPdf $exportProjectPdf)
     {
         try {
-            $project = Project::with('tasks.responsible')->findOrFail($id);
-            $html = view('project-pdf', compact('project'));
-            $buffer = $pdfService->generate($html);
-            $filename = "$project->title.pdf";
+            [$filename, $buffer] = $exportProjectPdf->execute($id);
 
             return response($buffer, 200, [
                 'Content-Type' => 'application/pdf',
                 'Content-Disposition' => HeaderUtils::makeDisposition('inline', $filename),
             ]);
+        } catch (\Exception $error) {
+            return response()->json([
+                'status' => false,
+                'error' => $error->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function xlsx(int $id, ExportProjectXlsx $exportProjectXlsx)
+    {
+        try {
+            $filepath = $exportProjectXlsx->execute($id);
+            return response()->download($filepath)->deleteFileAfterSend();
         } catch (\Exception $error) {
             return response()->json([
                 'status' => false,

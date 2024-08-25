@@ -17,7 +17,7 @@ export class TaskAddForm {
         description: string().required(),
         status: string().oneOf(['pendent', 'in-progress', 'completed']).required(),
         project_id: number().required(),
-        responsible_id: number().required(),
+        responsible_id: number().min(1).required(),
         due_date: string().required(),
     }) 
     private _project_id: number

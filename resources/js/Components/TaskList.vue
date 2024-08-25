@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Task as TaskType, User } from '@/types';
-import { router } from '@inertiajs/vue3'
 import Task from './Task.vue';
 
 type Props = {

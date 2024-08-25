@@ -71,13 +71,13 @@ onMounted(() => {
         </div>
 
         <div class="flex mb-4 gap-4">
-            <select class="borderless-input" placeholder="Status" v-model="form.data().status">
+            <select class="borderless-input" :class="{ 'error': form.errors().status }" placeholder="Status" v-model="form.data().status">
                 <option value="pendent">Pendente</option>
                 <option value="in-progress">Em progresso</option>
                 <option value="completed">Finalizada</option>
             </select>
 
-            <select class="borderless-input" placeholder="Responsável" v-model="form.data().responsible_id">
+            <select class="borderless-input" :class="{ 'error': form.errors().responsible_id }" placeholder="Responsável" v-model="form.data().responsible_id">
                 <option v-for="user in users" :value="user.id">{{ user.name }}</option>
             </select>
         </div>

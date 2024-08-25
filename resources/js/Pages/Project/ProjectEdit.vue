@@ -8,6 +8,7 @@ import { Head } from '@inertiajs/vue3';
 import { inject, ref } from 'vue';
 import TaskList from '@/Components/TaskList.vue';
 import TaskAddForm from '@/Components/TaskAddForm.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 type Props = {
     project: Project
@@ -17,10 +18,13 @@ type Props = {
 const props = defineProps<Props>()
 
 const project = ref(props.project)
-// const project = inject('project') as Project
 
 function onAddTask(task: Task) {
     props.project.tasks.push(task)
+}
+
+function exportPdf() {
+    window.open(route('projects.pdf', { id: props.project.id }))
 }
 </script>
 
@@ -37,7 +41,10 @@ function onAddTask(task: Task) {
                     <span>Projeto # {{ project.id }}</span>
                 </h2>
 
-                <DeleteProjectButton :project="project">Excluir projeto</DeleteProjectButton>
+                <div class="flex gap-2">
+                    <PrimaryButton :project="project" @click="exportPdf">Exportar PDF</PrimaryButton>
+                    <DeleteProjectButton :project="project">Excluir projeto</DeleteProjectButton>
+                </div>
             </div>
 
             <ProjectUpdateForm :project="project" />

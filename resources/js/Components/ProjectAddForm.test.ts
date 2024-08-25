@@ -22,7 +22,8 @@ function createGatewayMock(response?: SubmitResponse): ProjectGateway {
     }
     return {
         store: vi.fn().mockResolvedValueOnce(response ?? defaultResponse),
-        async patch() { }
+        async patch() { },
+        async delete() {}
     }
 }
 

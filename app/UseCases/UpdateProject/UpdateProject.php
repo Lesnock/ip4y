@@ -21,7 +21,7 @@ class UpdateProject
     public function __construct(private ProjectRepository $projectRepository)
     { }
 
-    public function execute(int $id, InputData $input): void
+    public function execute(int $id, array $input): void
     {
         $project = $this->projectRepository->getById($id);
 
@@ -30,10 +30,13 @@ class UpdateProject
         }
 
         try {
-            $project
-                ->setTitle($input->title)
-                ->setDescription($input->description)
-                ->setDueDate(new DateTime($input->due_date));
+            foreach ($input as $field => $value) {
+                switch ($field) {
+                    case 'title': $project->setTitle($value); break;
+                    case 'description': $project->setDescription($value); break;
+                    case 'due_date': $project->setDueDate(new DateTime($value)); break;
+                }
+            }
             $this->projectRepository->save($project);
         } catch (\Exception $error) {
             UseCaseExceptionHandler::handle($error);

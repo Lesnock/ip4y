@@ -41,9 +41,9 @@ export class ProjectGatewayAxios implements ProjectGateway {
         }
     }
 
-    async patch(form: ProjectUpdateFormDTO): Promise<void|string> {
+    async patch(id: number, form: ProjectUpdateFormDTO): Promise<void|string> {
         try {
-            await this.client.patch('/projects', form)
+            await this.client.patch(`/projects/${id}`, form)
         } catch (error) {
             if (error instanceof AxiosError) {
                 // Domain error

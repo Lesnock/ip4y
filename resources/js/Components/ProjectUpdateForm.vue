@@ -25,12 +25,11 @@ async function submit() {
 }
 
 async function save(field: keyof ProjectUpdateFormDTO) {
-    try {
-        await form.patch(field)
-        toastr.success('Campo salvo com sucesso!')
-    } catch (error) {
-        toastr.error('Erro ao salvar campo: ' + (error as Error).message)
+    const error = await form.patch(props.project.id, field)
+    if (error) {
+        toastr.error(`Erro ao salvar o campo: ${error}`); return;
     }
+    toastr.success('Campo salvo com sucesso!')
 }
 
 onMounted(() => {

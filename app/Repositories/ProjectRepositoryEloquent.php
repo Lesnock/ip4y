@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Repositories\Contracts\ProjectRepository;
 use App\Domain\Entities\Project;
 use App\Models\Project as ProjectModel;
+use Carbon\Carbon;
 
 class ProjectRepositoryEloquent implements ProjectRepository
 {
@@ -14,7 +15,7 @@ class ProjectRepositoryEloquent implements ProjectRepository
         if (!$row) {
             return null;
         }
-        return Project::build($row->title, $row->description, $row->due_date->toDateTime());
+        return Project::build($row->title, $row->description, Carbon::parse($row->due_date)->toDateTime(), $row->id);
     }
 
     public function save(Project $project): int

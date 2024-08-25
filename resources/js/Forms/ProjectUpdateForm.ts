@@ -42,12 +42,9 @@ export class ProjectUpdateForm {
         }
     }
 
-    async patch(field: keyof ProjectUpdateFormDTO): Promise<void> {
-        try {
-            await this._gateway.patch({ [field]: this._fields[field] })
-            this._savedFields[field] = this._fields[field] // Updated saved field
-        } catch (error) {
-            throw error
-        }
+    async patch(id: number, field: keyof ProjectUpdateFormDTO): Promise<void|string> {
+        const error = await this._gateway.patch(id, { [field]: this._fields[field] })
+        this._savedFields[field] = this._fields[field] // Updated saved field
+        return error
     }
 }

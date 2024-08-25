@@ -21,13 +21,13 @@ class ProjectRepositoryEloquent implements ProjectRepository
     public function save(Project $project): int
     {
         $data = $project->toArray();
+        unset($data['id']);
 
         if (!$project->getId()) {
             $row = ProjectModel::create($data);
             return $row->id;
         }
 
-        unset($data['id']);
         ProjectModel::where('id', $project->getId())->update($data);
         return $project->getId();
     }

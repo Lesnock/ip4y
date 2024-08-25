@@ -28,13 +28,13 @@ class TaskRepositoryEloquent implements TaskRepository
     public function save(Task $task): int
     {
         $data = $task->toArray();
+        unset($data['id']);
 
         if (!$task->getId()) {
             $row = TaskModel::create($data);
             return $row->id;
         }
 
-        unset($data['id']);
         TaskModel::where('id', $task->getId())->update($data);
         return $task->getId();
     }

@@ -60,6 +60,11 @@ Execute o vite que irá servir os arquivos do frontend:
 npm run vite
 ```
 Abra sua aplicação no navegador, na porta escolhida e faça o registro do seu usuário.
+Para executar os testes rode os seguintes comandos:
+```
+./vendor/bin/sail artisan test
+npm run test
+```
 
 # Arquitetura
 Este projeto foi desenvolvido com base na arquitetura de software chamada **Clean Architecture**. É claro que utilizar Clean Architecture para uma aplicação tão simples é um baita de um "Overengineering", mas eu o fiz para efeitos de demonstração de conhecimento.

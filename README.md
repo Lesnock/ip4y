@@ -1,6 +1,5 @@
-e# IP4Y Teste de Desenvolvimento para Programador Senior em PHP
+# IP4Y Teste de Desenvolvimento para Programador Senior em PHP
 ![enter image description here](https://raw.githubusercontent.com/Lesnock/ip4y/main/images/projects-page.JPG)
-![enter image description here](https://raw.githubusercontent.com/Lesnock/ip4y/main/images/project-edit-page.JPG)
 
 Este repostório é a implementação do Teste prático para Senior PHP na IP4Y.
 - [Instalação e configuração](#instalação-e-configuração)
@@ -97,7 +96,7 @@ Este padrão é muito mal interpretado pelos desenvolvedores, que muitas das vez
 
 # Respostas das questões teóricas
 
-1. **Explique a diferença entre Eloquent ORM e Query Builder no Laravel. Quais são os prós e contras de cada abordagem?**
+## 1. Explique a diferença entre Eloquent ORM e Query Builder no Laravel. Quais são os prós e contras de cada abordagem?
 
 O Eloquent ORM, como o próprio nome diz, é um Object Relational Mapping, ou seja, é uma forma de "mapear" registros do banco de dados em forma de objetos na programação, isto é, cada tupla no banco de dados será transformado em uma instância de um Model no PHP. O Eloquent é um ORM que além de fazer esse mapeamento, ele também é muito útil para adicionarmos "lógica" sob a camada de banco de dados, criando métodos que interagem com as propriedades carregadas do banco de dados.
 No entanto, na minha opinião, o Eloquent realmente "brilha" quando falamos sobre relações entre tabelas do banco de dados. O Eloquent possui diversos métodos que automatizam, tanto consultas, quanto alterações de *relationships* no banco de dados. É simplesmente **incrível**!
@@ -121,17 +120,14 @@ O Query Builder, por sua vez, como o nome também sugere, é um mecanismo que no
 - Adiciona uma camada de complexidade sobre o código.
 - Difícil de mockar.
 
-2. **Como você garantiria a segurança de uma aplicação Laravel ao lidar com entradas de
-usuários e dados sensíveis? Liste pelo menos três práticas recomendadas e explique cada uma delas.**
+## 2. Como você garantiria a segurança de uma aplicação Laravel ao lidar com entradas de usuários e dados sensíveis? Liste pelo menos três práticas recomendadas e explique cada uma delas.
 
 O Laravel possui alguns recursos para lidar com a segurança da aplicação. Entre eles eu citaria:
 - Utilizar o **CSRF Token**, que vai garantir que usuário externos não consigam enviar formulários para a nossa aplicação sem estar dentro da nossa página.
 - Utilizar os recursos do Query Builder para evitar **SQL Injection**. Nunca concatenar valores diretamente dentro de uma query.
 - Utilizar **Form Requests** que validem a entrada de dados na aplicação.
 
-3. **Qual é o papel dos Middlewares no Laravel e como eles se integram ao pipeline de
-requisição? Dê um exemplo prático de como você criaria e aplicaria um Middleware
-personalizado para verificar se o usuário está ativo antes de permitir o acesso a uma rota específica.**
+## 3. Qual é o papel dos Middlewares no Laravel e como eles se integram ao pipeline de requisição? Dê um exemplo prático de como você criaria e aplicaria um Middleware personalizado para verificar se o usuário está ativo antes de permitir o acesso a uma rota específica.
 
 Eu considero middlewares como uma "cadeia de portões" de uma requisição. Cada middleware é executado e "chama" o próximo middleware. Os middlewares tem o poder de interromper uma requisição e retornar algo para o solicitante da requisição. 
 Uma requisição pode possuir quantos middlewares forem necessários. 
@@ -153,18 +149,18 @@ class CheckUserIsActiveMiddleware
 }
 ```
 
-4. **Descreva como o Laravel gerencia migrations e como isso é útil para o desenvolvimento de aplicações. Quais são as melhores práticas ao criar e aplicar migrations?**
+## 4. Descreva como o Laravel gerencia migrations e como isso é útil para o desenvolvimento de aplicações. Quais são as melhores práticas ao criar e aplicar migrations?
 
 As migrations são "utilitários" que gerenciam o versionamento do banco de dados. O Laravel salva essas versões em uma tabela no banco de dados chamada "migrations". Cada migration corresponde à uma linha nessa tabela. O nome das migrations é um aspecto importante deste recurso, pois incluem o timestamp da criação da migration e o nome que representa o que ela modifica no banco de dados. Entre as boas práticas relacionadas às migrations eu citaria:
 - Criar sempre bons nomes que descrevem bem o que a migration faz.
 - Sempre executar a migration e dar um rollback ainda no ambiente de desenvolvimento para ver se ambos realmente funcionam como esperado.
 - Se o banco permitir, realizar um "squash" das migrations para reduzir o número de arquivos.
 
-5. **Qual é a diferença entre transações e savepoints no SQL Server? Como você usaria transações em um ambiente Laravel?**
+## 5. Qual é a diferença entre transações e savepoints no SQL Server? Como você usaria transações em um ambiente Laravel?
 
 Eu sempre penso em transações como um grupo de comandos que devem ser executados no banco de dados e que **devem** ser executados por completo ou cancelados. Em outras palavras: **TUDO** ou **NADA**. O SQL Server, no entando, possui o recurso de "savepoints" que "particionam" uma transação, e possibilita que o rollback não seja feito por inteiro, mas somente até um determinado ponto. No Laravel, ou em qualquer outra aplicação, eu usaria uma transaction para salvar componentes que são considerados como um único "agregado", por exemplo, um orçamento deve sempre ser salvo com seus itens. Se um erro ocorrer durante a inserção de um dos itens, então toda a transação deve ser desfeita. Se tudo ocorresse bem, um commit na transação salvaria todo o processo efetuado em definitivo.
 
-# Disclaimers
+# Disclaimer
 
 Agradeço à equipe da IP4Y e da Projeto 22 por me permitirem participar deste processo seletivo. Recebam meus sinceros agradecimentos.
 Eu gostaria de informar que atualmente eu trabalho em período integral presencialmente, e possuo um filhinho de 1 ano de idade, e por esse motivo, o prazo foi um tanto quanto apertado para mim. Por essa razão, eu não consegui completar todos os testes automatizados que eu julgava necessário no frontend e alguns poucos no backend. Eu também gostaria de ter criado testes end-to-end utilizando Cypress, mas infelizmente não tive tempo suficiente.

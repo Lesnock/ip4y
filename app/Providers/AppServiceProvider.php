@@ -14,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
+     * CANDIDATO: Aqui eu estou registrando as instâncias das interfaces que eu criei na aplicação.
+     * Essas interfaces são instanciadas de forma diferente nos testes automatizados. É aqui
+     * que habita a beleza da injeção de dependência.
      */
     public function register(): void
     {

@@ -2,23 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
 use App\UseCases\ExportProjectPdf\ExportProjectPdf;
 use App\UseCases\ExportProjectXlsx\ExportProjectXlsx;
-use DateTime;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class ProjectExportController extends Controller
 {
-    public function preview(int $id)
-    {
-        $project = Project::with('tasks.responsible')->findOrFail($id);
-        return view('project-pdf', compact('project'));
-    }
-
     public function pdf(int $id, ExportProjectPdf $exportProjectPdf)
     {
         try {

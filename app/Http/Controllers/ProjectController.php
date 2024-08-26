@@ -17,6 +17,11 @@ use App\Utils\ControllerExceptionHandler;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * CANDIDATO: Por se tratar de um CRUD praticamente, eu optei por criar um Resouce Controller.
+ * Existia a possibilidade de criarmos um controller para cada ação (ListProjectController, StoreProjectController, etc.), mas
+ * não enxerguei muita necessidade de fazer isso. Todavia, há casos em que se aplicam.
+ */
 class ProjectController extends Controller
 {
     public function index(ListProject $listProject)

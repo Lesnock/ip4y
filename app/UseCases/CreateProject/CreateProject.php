@@ -9,6 +9,9 @@ use App\Utils\UseCaseExceptionHandler;
 class CreateProject
 {
     /**
+     * CANDIDATO: Eu criei os use cases que são responsáveis por orquestrar o domínio da aplicação.
+     * Os controllers não devem possuir regras de negócio, mas devem chamar os use cases que farão essa tarefa.
+     * 
      * Injetamos a dependência do repository que é uma interface,
      * o que irá facilitar MUITO a testabilidade desse código,
      * pois nos testes unitários não precisaremos nos preocupar em salvar o projeto de fato no banco de dados, 

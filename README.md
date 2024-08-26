@@ -102,6 +102,7 @@ O Query Builder, por sua vez, como o nome também sugere, é um mecanismo que no
 
 **Pontos negativos do Eloquent ORM:**
 - Pode induzir o desenvolvedor a colocar muita regra de negócio nos Model's que deveriam estar em uma camada de domínio.
+- Difícil de mockar.
 
 **Pontos positivos do Query Builder:**
 - Deixa o código mais elegante e fácil de ler (mas nem sempre).
@@ -111,6 +112,7 @@ O Query Builder, por sua vez, como o nome também sugere, é um mecanismo que no
 **Pontos negativos do Query Builder**
 - Pode se tornar extremamente irritante ao tentar escrever queries mais complexas.
 - Adiciona uma camada de complexidade sobre o código.
+- Difícil de mockar.
 
 2. **Como você garantiria a segurança de uma aplicação Laravel ao lidar com entradas de
 usuários e dados sensíveis? Liste pelo menos três práticas recomendadas e explique cada uma delas.**
@@ -156,6 +158,7 @@ Eu sempre penso em transações como um grupo de comandos que devem ser executad
 Agradeço à equipe da IP4Y e da Projeto 22 por me permitirem participar deste processo seletivo. Recebam meus sinceros agradecimentos.
 Eu gostaria de informar que atualmente eu trabalho em período integral presencialmente, e possuo um filhinho de 1 ano de idade, e por esse motivo, o prazo foi um tanto quanto apertado para mim. Por essa razão, eu não consegui completar todos os testes automatizados que eu julgava necessário no frontend e alguns poucos no backend. Eu também gostaria de ter criado testes end-to-end utilizando Cypress, mas infelizmente não tive tempo suficiente.
 Acredito que consegui cumprir todos os requisitos do projeto, com exceção de um único ponto, que é o de filtrar as tarefas antes de exportar o pdf/excel.
+Eu escrevi diversos comentários sobre minhas decisões no código. Todos iniciam com o termo "CANDIDATO:", se caso o leitor quiser encontrá-los rapidamente com a ajuda de uma IDE.
 Qualquer dúvida, estou à disposição para esclarecimentos.
 
 

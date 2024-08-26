@@ -8,7 +8,7 @@ use DateTime;
 
 /**
  * Entidade Projeto
- * Aqui ficam armazenadas todas as regras de negócio relacionadas diretamente com a entidade Project.
+ * CANDIDATO: Aqui ficam armazenadas todas as regras de negócio relacionadas diretamente com a entidade Project.
  * Eu optei por criar as entidades separadas dos models Eloquent porque assim nós conseguimos
  * desacoplar a regra de negócio das regras de persistência do banco de dados.
  * Para as entidades de domínio, não importa como elas são armazenadas no banco. A única coisa que importa

@@ -19,7 +19,7 @@ class Task extends Entity
 
     /**
      * Construtor
-     * Criei o construtor como "private" para que a classe nunca seja instanciada diretamente
+     * CANDIDATO: Criei o construtor como "private" para que a classe nunca seja instanciada diretamente
      * mas sempre passe pelo método "build" que fará as devidas validações.
      * Pode parecer "Overengineering", mas assim garantimos que a entidade Task sempre estará em um estado válido.
      */

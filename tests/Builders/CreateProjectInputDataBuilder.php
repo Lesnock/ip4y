@@ -5,6 +5,12 @@ namespace Tests\Builders;
 use App\UseCases\CreateProject\InputData;
 use DateTime;
 
+/**
+ * CANDIDATO: O padrão "builder" para criação de objetos que serão utilizados nos estes automatizados
+ * foi simplesmente uma das coisas mais úteis que eu já aprendi na programação. Com este padrão
+ * não precisamos ficar criando dezenas de estruturas diferentes no teste automatizamos. Encapsulamos todas essas
+ * regras aqui no Builder.
+ */
 class CreateProjectInputDataBuilder
 {
     private InputData $inputData;

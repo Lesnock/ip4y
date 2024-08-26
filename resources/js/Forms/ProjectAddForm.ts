@@ -9,6 +9,11 @@ export type SubmitResponse = {
     project: Project|null;
 }
 
+/**
+ * CANDIDATO: Eu escolhi por separar a lógica de formulário do componente em si.
+ * Criei essa classe (meio que improvisada) para lidar com essa lógica. Aqui o formulário
+ * é preenchido, validado e enviado. O componente vue apenas orquestra esssas ações.
+ */
 export class ProjectAddForm {
     private _fields: ProjectAddFormDTO
 

@@ -18,6 +18,10 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            /**
+             * CANDIDATO: Injeção das instâncias das interfaces de gateway
+             * Funciona mais ou menos como um Service Container do Laravel.
+             */
             .provide('projectGateway', new ProjectGatewayAxios)
             .provide('taskGateway', new TaskGatewayAxios)
             .mount(el);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Task as TaskType, User } from '@/types';
-import Task from './Task.vue';
+import TaskUpdateForm from './TaskUpdateForm/TaskUpdateForm.vue';
 
 type Props = {
     tasks: TaskType[],
@@ -18,8 +18,8 @@ function onDeleteTask(index: number) {
 
 <template>
     <TransitionGroup name="list" tag="ul">
-        <Task v-for="(task, index) in tasks" :key="task.id" :task="task" :users="users" data-task @delete="onDeleteTask(index)">
-        </Task>
+        <TaskUpdateForm v-for="(task, index) in tasks" :key="task.id" :task="task" :users="users" data-task @delete="onDeleteTask(index)">
+        </TaskUpdateForm>
     </TransitionGroup>
 </template>
 

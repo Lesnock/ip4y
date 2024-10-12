@@ -19,4 +19,4 @@ export type TaskAddFormDTO = {
     due_date: string;
 }
 
-export type TaskUpdateFormDTO = Partial<TaskAddFormDTO>
+export type TaskUpdateFormDTO = TaskAddFormDTO

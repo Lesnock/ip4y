@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/project-export/{id}/xlsx', [ProjectExportController::class, 'xlsx'])->name('projects.xlsx');
 
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
-    Route::patch('/tasks/{id}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::put('/tasks/{id}', [TaskController::class, 'update'])->name('tasks.update');
     Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 });
 

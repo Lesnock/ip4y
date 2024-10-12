@@ -9,6 +9,6 @@ export interface ProjectGateway {
 
 export interface TaskGateway {
     store(form: TaskAddFormDTO): Promise<{ error: string|null, task: Task|null }>;
-    patch(id: number, form: TaskUpdateFormDTO): Promise<void|string>;
+    update(id: number, form: TaskUpdateFormDTO): Promise<void|string>;
     delete(id: number): Promise<void|string>;
 }

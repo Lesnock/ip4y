@@ -31,16 +31,12 @@ class UpdateTask
         }
 
         try {
-            foreach ($input as $field => $value) {
-                switch ($field) {
-                    case 'title': $task->setTitle($value); break;
-                    case 'description': $task->setDescription($value); break;
-                    case 'status': $task->setStatus($value); break;
-                    case 'project_id': $task->setProjectId($value); break;
-                    case 'responsible_id': $task->setResponsibleId($value); break;
-                    case 'due_date': $task->setDueDate($value); break;
-                }
-            }
+            $task->setTitle($input['title']);
+            $task->setDescription($input['description']);
+            $task->setStatus($input['status']);
+            $task->setProjectId($input['project_id']);
+            $task->setResponsibleId($input['responsible_id']);
+            $task->setDueDate($input['due_date']);
             DB::beginTransaction();
             $this->taskRepository->save($task);
             $user = User::find($task->getResponsibleId());

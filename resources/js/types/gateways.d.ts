@@ -3,7 +3,7 @@ import { ProjectAddFormDTO, ProjectUpdateFormDTO, TaskAddFormDTO, TaskUpdateForm
 
 export interface ProjectGateway {
     store(form: ProjectAddFormDTO): Promise<{ error: string|null, project: Project|null }>;
-    patch(id: number, form: ProjectUpdateFormDTO): Promise<void|string>;
+    update(id: number, form: ProjectUpdateFormDTO): Promise<void|string>;
     delete(id: number): Promise<void|string>;
 }
 

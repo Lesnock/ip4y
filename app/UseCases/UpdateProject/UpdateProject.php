@@ -10,7 +10,7 @@ use DateTime;
 class UpdateProject
 {
     /**
-     * Injetamos a dependência do repository que é uma interface,
+     * CANDIDATO: Injetamos a dependência do repository que é uma interface,
      * o que irá facilitar MUITO a testabilidade desse código,
      * pois nos testes unitários não precisaremos nos preocupar em salvar o projeto de fato no banco de dados, 
      * pelo contrário, focaremos apenas no comportamento do caso de uso.
@@ -29,13 +29,9 @@ class UpdateProject
         }
 
         try {
-            foreach ($input as $field => $value) {
-                switch ($field) {
-                    case 'title': $project->setTitle($value); break;
-                    case 'description': $project->setDescription($value); break;
-                    case 'due_date': $project->setDueDate($value); break;
-                }
-            }
+            $project->setTitle($input['title']);
+            $project->setDescription($input['description']);
+            $project->setDueDate($input['due_date']);
             $this->projectRepository->save($project);
         } catch (\Exception $error) {
             UseCaseExceptionHandler::handle($error);

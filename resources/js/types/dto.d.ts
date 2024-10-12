@@ -4,7 +4,11 @@ export type ProjectAddFormDTO = {
     due_date: string;
 }
 
-export type ProjectUpdateFormDTO = Partial<ProjectAddFormDTO>
+export type ProjectUpdateFormDTO = {
+    title: string;
+    description: string;
+    due_date: string;
+}
 
 export type TaskAddFormDTO = {
     title: string;

@@ -1,14 +1,14 @@
-import { Schema, ValidationError } from "yup";
+import { Schema, ValidationError, setLocale } from "yup";
+import { pt } from 'yup-locale-pt'
 
-type ErrorsObject = { [key: string]: string }
+setLocale(pt)
 
-export function validate(schema: Schema, form: object) {
-    const errors: ErrorsObject = {}
-
+export function validate<T>(schema: Schema, form: T) {
     try {
         schema.validateSync(form, { abortEarly: false })
-        return { status: true, errors: null }
+        return { status: true, errors: {} }
     } catch (err) {
+        const errors = {} as { [key: string]: string }
         if (err instanceof ValidationError) {
             err.inner.forEach(error => {
                 errors[error.path as string] = error.message

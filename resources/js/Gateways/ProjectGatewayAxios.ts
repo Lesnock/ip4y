@@ -1,3 +1,4 @@
+import { handleRequestError } from "@/helpers";
 import { Project } from "@/types";
 import { ProjectAddFormDTO, ProjectUpdateFormDTO } from "@/types/dto";
 import { ProjectGateway } from "@/types/gateways";
@@ -13,55 +14,19 @@ export class ProjectGatewayAxios implements ProjectGateway {
     async store(form: ProjectAddFormDTO): Promise<{ error: string | null, project: Project | null }> {
         try {
             const res = await this.client.post('/projects', form)
-            return { 
-                error: null, 
-                project: {
-                    ...res.data.project,
-                    due_date: new Date(res.data.project.due_date)
-                }
-            }
+            const project = res.data.project
+            project.due_date = new Date(project.due_date)
+            return { error: null, project }
         } catch (error) {
-            if (error instanceof AxiosError) {
-                // Domain error
-                if (error.response?.data.error) {
-                    return { error: error.response?.data.error, project: null }
-                }
-
-                // Form request error
-                if (error.response?.data.errors) {
-                    const message = []
-                    for (const field in error.response.data.errors) {
-                        message.push(error.response.data.errors[field])
-                    }
-                    return { error: message.join('<br>'), project: null }
-                }
-            }
-
-            return { error: (error as Error).message, project: null }
+            return { error: handleRequestError(error), project: null }
         }
     }
 
-    async patch(id: number, form: ProjectUpdateFormDTO): Promise<void|string> {
+    async update(id: number, form: ProjectUpdateFormDTO): Promise<void|string> {
         try {
-            await this.client.patch(`/projects/${id}`, form)
+            await this.client.put(`/projects/${id}`, form)
         } catch (error) {
-            if (error instanceof AxiosError) {
-                // Domain error
-                if (error.response?.data.error) {
-                    return error.response?.data.error
-                }
-
-                // Form request error
-                if (error.response?.data.errors) {
-                    const message = []
-                    for (const field in error.response.data.errors) {
-                        message.push(error.response.data.errors[field])
-                    }
-                    return message.join('<br>')
-                }
-            }
-
-            return (error as Error).message
+            return handleRequestError(error)
         }
     }
 
@@ -69,12 +34,7 @@ export class ProjectGatewayAxios implements ProjectGateway {
          try {
             await this.client.delete(`/projects/${id}`)
         } catch (error) {
-            if (error instanceof AxiosError) {
-                if (error.response?.data.error) {
-                    return error.response?.data.error
-                }
-            }
-            return (error as Error).message
+            return handleRequestError(error)
         }
     }
 }

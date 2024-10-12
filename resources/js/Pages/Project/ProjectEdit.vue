@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProjectUpdateForm from '@/Components/ProjectUpdateForm.vue';
+import ProjectUpdateForm from '@/Components/ProjectUpdateForm/ProjectUpdateForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteProjectButton from '@/Components/DeleteProjectButton.vue';
 import { Project, Task, User } from '@/types';

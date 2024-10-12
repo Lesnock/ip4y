@@ -63,7 +63,6 @@ class ProjectController extends Controller
     {
         try {
             $updateProject->execute($id, $request->all());
-
             return response()->json([
                 'status' => true,
             ], Response::HTTP_OK); // 200

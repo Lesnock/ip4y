@@ -30,7 +30,6 @@ function onAddTask(task: Task) {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-between">
-
                 <h2
                     class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight flex align-items justify-between items-center">
                     <span>Projeto # {{ project.id }}</span>

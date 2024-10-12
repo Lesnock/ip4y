@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .borderless-input {
-    @apply text-sm block w-full p-2.5 border-transparent border-b-gray-300 dark:bg-gray-800 dark:placeholder-gray-400 dark:border-b-gray-400 dark:text-white focus:ring-0 focus:border-transparent
+    @apply text-sm block w-full p-2.5 border-transparent border-b-gray-300 bg-white dark:bg-gray-700 dark:placeholder-gray-400 dark:border-b-gray-400 dark:text-white focus:ring-0 focus:border-transparent
 }
 
 .borderless-input:not(.error) {

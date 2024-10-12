@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ProjectList from '@/Components/ProjectList.vue';
-import ProjectAddForm from '@/Components/ProjectAddForm.vue';
+import ProjectAddForm from '@/Components/ProjectAddForm/ProjectAddForm.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Project } from '@/types';
 import { Head } from '@inertiajs/vue3';

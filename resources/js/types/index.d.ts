@@ -29,3 +29,5 @@ type Task = {
     responsible?: User;
     due_date: Date,
 }
+
+type VueEmitter<T> = (event: T, ...args: any[]) => void

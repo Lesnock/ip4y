@@ -1,6 +1,6 @@
 import { mount, VueWrapper } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import ProjectAddForm from './ProjectAddForm.vue'
+import ProjectAddForm from './ProjectAddForm/ProjectAddForm.vue'
 import { ProjectBuilder } from '@/Testing/Builders/ProjectBuilder'
 import type { ProjectGateway } from '@/types/gateways.d.ts'
 import { nextTick } from 'vue'

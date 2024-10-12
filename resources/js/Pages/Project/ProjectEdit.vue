@@ -6,7 +6,7 @@ import { Project, Task, User } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import TaskList from '@/Components/TaskList.vue';
-import TaskAddForm from '@/Components/TaskAddForm.vue';
+import TaskAddForm from '@/Components/TaskAddForm/TaskAddForm.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 type Props = {

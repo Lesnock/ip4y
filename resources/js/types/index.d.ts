@@ -23,7 +23,7 @@ type Task = {
     id: number;
     title: string;
     description: string;
-    status: 'pending' | 'in-progress' | 'completed';
+    status: 'pendent' | 'in-progress' | 'completed';
     project_id: number;
     responsible_id: number;
     responsible?: User;

@@ -13,7 +13,7 @@ export class TaskBuilder {
             responsible_id: user.id,
             responsible: user,
             project_id: 1,
-            status: 'pending',
+            status: 'pendent',
             due_date: new Date()
         }
     }
@@ -22,8 +22,8 @@ export class TaskBuilder {
         return new TaskBuilder;
     }
 
-    public pending() {
-        this.task.status = 'pending'
+    public pendent() {
+        this.task.status = 'pendent'
         return this
     }
 

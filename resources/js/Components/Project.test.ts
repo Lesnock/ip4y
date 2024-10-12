@@ -32,7 +32,7 @@ describe('<Project />', () => {
     test('Show task completed 0 / 1', () => {
         const project = ProjectBuilder
             .aProject()
-            .withTask(TaskBuilder.aTask().pending().build())
+            .withTask(TaskBuilder.aTask().pendent().build())
             .build()
 
         const wrapper = mount(Project, {

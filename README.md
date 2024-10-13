@@ -16,8 +16,8 @@ Este sistema foi desenvolvido utilizando o Laravel Sail (Docker) em um sistema o
 
 Clone o repositório:
 ```
-git clone https://github.com/Lesnock/ip4y-teste-senior-php
-cd ip4y-teste-senior-php
+git clone https://github.com/Lesnock/ip4y
+cd ip4y
 ```
 Instale as dependências do PHP e do Javascript:
 ```

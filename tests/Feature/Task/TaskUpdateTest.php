@@ -11,6 +11,7 @@ use App\Notifications\TaskUpdated;
 use App\UseCases\UpdateTask\UpdateTask;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
+use DateTime;
 
 class TaskUpdateTest extends TestCase
 {
@@ -20,7 +21,7 @@ class TaskUpdateTest extends TestCase
         $this->actingAs(User::factory()->create());
     }
 
-    public function testTaskTitleIsUpdated()
+    public function testTaskIsUpdated()
     {
         $project = Project::factory()->create();
         $user = User::factory()->create();
@@ -28,44 +29,23 @@ class TaskUpdateTest extends TestCase
             'project_id' => $project->id,
             'responsible_id' => $user->id
         ]);
-        $response = $this->patch("/tasks/$task->id", [
-            'title' => 'changed',
-        ]);
-        $response->assertStatus(200);
-        $saved = Task::find($task->id);
-        $this->assertEquals($saved->title, 'changed');
-    }
-
-    public function testTaskDescriptionIsUpdated()
-    {
-        $project = Project::factory()->create();
-        $user = User::factory()->create();
-        $task = Task::factory()->create([
+        $date = new DateTime('2099-01-01');
+        $response = $this->put("/tasks/$task->id", [
+            'title' => 'title',
+            'description' => 'description',
+            'status' => 'pendent',
             'project_id' => $project->id,
-            'responsible_id' => $user->id
-        ]);
-        $response = $this->patch("/tasks/$task->id", [
-            'description' => 'changed',
+            'responsible_id' => $user->id,
+            'due_date' => $date->format('Y-m-d'),
         ]);
         $response->assertStatus(200);
         $saved = Task::find($task->id);
-        $this->assertEquals($saved->description, 'changed');
-    }
-
-    public function testTaskDueDateIsUpdated()
-    {
-        $project = Project::factory()->create();
-        $user = User::factory()->create();
-        $task = Task::factory()->create([
-            'project_id' => $project->id,
-            'responsible_id' => $user->id
-        ]);
-        $response = $this->patch("/tasks/$task->id", [
-            'due_date' => '2099-01-01',
-        ]);
-        $response->assertStatus(200);
-        $saved = Task::find($task->id);
-        $this->assertStringContainsString('2099-01-01', $saved->due_date); // Using contains to ignore time...
+        $this->assertEquals($saved->title, 'title');
+        $this->assertEquals($saved->description, 'description');
+        $this->assertEquals($saved->status, 'pendent');
+        $this->assertEquals($saved->project_id, $project->id);
+        $this->assertEquals($saved->responsible_id, $user->id);
+        $this->assertEquals((new DateTime($saved->due_date))->format('Y-m-d'), $date->format('Y-m-d'));
     }
 
     public function testNotificationIsSent()
@@ -77,12 +57,15 @@ class TaskUpdateTest extends TestCase
             'project_id' => $project->id,
             'responsible_id' => $user->id
         ]);
-        $response = $this->patch("/tasks/$task->id", [
+        $response = $this->put("/tasks/$task->id", [
+            'title' => 'title',
+            'description' => 'description',
+            'status' => 'pendent',
+            'project_id' => $project->id,
+            'responsible_id' => $user->id,
             'due_date' => '2099-01-01',
         ]);
         $response->assertStatus(200);
-        $saved = Task::find($task->id);
-        $this->assertStringContainsString('2099-01-01', $saved->due_date); // Using contains to ignore time...
         Notification::assertSentTo([$user], TaskUpdated::class);
     }
 
@@ -92,8 +75,13 @@ class TaskUpdateTest extends TestCase
         $useCaseMock->method('execute')->willThrowException(new ClientException);
         $this->instance(UpdateTask::class, $useCaseMock);
 
-        $response = $this->patch('/tasks/1', [
+        $response = $this->put('/tasks/1', [
             'title' => 'title',
+            'description' => 'description',
+            'status' => 'pendent',
+            'project_id' => 1,
+            'responsible_id' => 1,
+            'due_date' => '2099-01-01',
         ]);
 
         $response->assertBadRequest();
@@ -105,8 +93,13 @@ class TaskUpdateTest extends TestCase
         $useCaseMock->method('execute')->willThrowException(new ServerException);
         $this->instance(UpdateTask::class, $useCaseMock);
 
-        $response = $this->patch('/tasks/1', [
+        $response = $this->put('/tasks/1', [
             'title' => 'title',
+            'description' => 'description',
+            'status' => 'pendent',
+            'project_id' => 1,
+            'responsible_id' => 1,
+            'due_date' => '2099-01-01',
         ]);
 
         $response->assertInternalServerError();

@@ -18,37 +18,20 @@ class ProjectUpdateTest extends TestCase
         $this->actingAs(User::factory()->create());
     }
 
-    public function testProjectTitleIsUpdated()
+    public function testProjectIsUpdated()
     {
         $project = Project::factory()->create();
-        $response = $this->patch("/projects/$project->id", [
-            'title' => 'changed',
+        $date = new DateTime('2099-01-01');
+        $response = $this->put("/projects/$project->id", [
+            'title' => 'title',
+            'description' => 'description',
+            'due_date' => $date->format('Y-m-d'),
         ]);
         $response->assertStatus(200);
         $saved = Project::find($project->id);
-        $this->assertEquals($saved->title, 'changed');
-    }
-
-    public function testProjectDescriptionIsUpdated()
-    {
-        $project = Project::factory()->create();
-        $response = $this->patch("/projects/$project->id", [
-            'description' => 'changed',
-        ]);
-        $response->assertStatus(200);
-        $saved = Project::find($project->id);
-        $this->assertEquals($saved->description, 'changed');
-    }
-
-    public function testProjectDueDateIsUpdated()
-    {
-        $project = Project::factory()->create();
-        $response = $this->patch("/projects/$project->id", [
-            'due_date' => '2099-01-01',
-        ]);
-        $response->assertStatus(200);
-        $saved = Project::find($project->id);
-        $this->assertStringContainsString('2099-01-01', $saved->due_date); // Using contains to ignore time...
+        $this->assertEquals($saved->title, 'title');
+        $this->assertEquals($saved->description, 'description');
+        $this->assertEquals((new DateTime($saved->due_date))->format('Y-m-d'), $date->format('Y-m-d'));
     }
 
     public function testResponseIsBadRequestWhenClientExceptionIsThrown()
@@ -57,8 +40,10 @@ class ProjectUpdateTest extends TestCase
         $useCaseMock->method('execute')->willThrowException(new ClientException);
         $this->instance(UpdateProject::class, $useCaseMock);
 
-        $response = $this->patch('/projects/1', [
+        $response = $this->put('/projects/1', [
             'title' => 'title',
+            'description' => 'description',
+            'due_date' => '2001-01-01',
         ]);
 
         $response->assertBadRequest();
@@ -70,8 +55,10 @@ class ProjectUpdateTest extends TestCase
         $useCaseMock->method('execute')->willThrowException(new ServerException());
         $this->instance(UpdateProject::class, $useCaseMock);
 
-        $response = $this->patch('/projects/1', [
+        $response = $this->put('/projects/1', [
             'title' => 'title',
+            'description' => 'description',
+            'due_date' => '2001-01-01',
         ]);
 
         $response->assertInternalServerError();

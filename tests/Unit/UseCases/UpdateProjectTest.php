@@ -62,7 +62,9 @@ class UpdateProjectTest extends TestCase
 
         $usecase = new UpdateProject($projectRepositoryMock);
         $usecase->execute($project->getId(), [
-            'title' => ''
+            'title' => '',
+            'description' => 'New description',
+            'due_date' => '2099-01-01'
         ]);
     }
 
@@ -75,7 +77,9 @@ class UpdateProjectTest extends TestCase
 
         $usecase = new UpdateProject($projectRepositoryMock);
         $usecase->execute($project->getId(), [
-            'description' => ''
+            'title' => 'New title',
+            'description' => '',
+            'due_date' => '2099-01-01'
         ]);
     }
 }

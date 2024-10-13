@@ -14,6 +14,7 @@ use App\UseCases\GetProject\GetProject;
 use App\UseCases\ListProject\ListProject;
 use App\UseCases\UpdateProject\UpdateProject;
 use App\Utils\ControllerExceptionHandler;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -63,6 +64,8 @@ class ProjectController extends Controller
     {
         try {
             $updateProject->execute($id, $request->all());
+            Cache::forget("project-pdf-$id");
+            Cache::forget("project-xlsx-$id");
             return response()->json([
                 'status' => true,
             ], Response::HTTP_OK); // 200
@@ -75,6 +78,8 @@ class ProjectController extends Controller
     {
         try {
             $deleteProject->execute($id);
+            Cache::forget("project-pdf-$id");
+            Cache::forget("project-xlsx-$id");
             return response()->json([
                 'status' => true,
             ], Response::HTTP_OK); // 200

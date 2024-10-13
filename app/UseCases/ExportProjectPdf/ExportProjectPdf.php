@@ -13,14 +13,12 @@ class ExportProjectPdf
     public function __construct(private PdfService $pdfService)
     { }
 
-    public function execute(int $id): ?array
+    public function execute(int $id): ?string
     {
         try {
             $project = Project::with('tasks.responsible')->findOrFail($id);
             $html = view('project-pdf', compact('project'));
-            $buffer = $this->pdfService->generate($html);
-            $filename = "$project->title.pdf";
-            return [$filename, $buffer];
+            return $this->pdfService->generate($html);
         } catch (\Exception $error) {
             if ($error instanceof ModelNotFoundException) {
                 throw new EntityNotFoundException("Projeto não encontrado");

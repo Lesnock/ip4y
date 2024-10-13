@@ -71,11 +71,17 @@ class TaskUpdateTest extends TestCase
 
     public function testResponseIsBadRequestWhenClientExceptionIsThrown()
     {
+        $project = Project::factory()->create();
+        $user = User::factory()->create();
+        $task = Task::factory()->create([
+            'project_id' => $project->id,
+            'responsible_id' => $user->id
+        ]);
         $useCaseMock = $this->createMock(UpdateTask::class);
         $useCaseMock->method('execute')->willThrowException(new ClientException);
         $this->instance(UpdateTask::class, $useCaseMock);
 
-        $response = $this->put('/tasks/1', [
+        $response = $this->put("/tasks/{$task->id}", [
             'title' => 'title',
             'description' => 'description',
             'status' => 'pendent',
@@ -89,11 +95,17 @@ class TaskUpdateTest extends TestCase
 
     public function testResponseIsInternalServerErrorWhenServerExceptionIsThrown()
     {
+        $project = Project::factory()->create();
+        $user = User::factory()->create();
+        $task = Task::factory()->create([
+            'project_id' => $project->id,
+            'responsible_id' => $user->id
+        ]);
         $useCaseMock = $this->createMock(UpdateTask::class);
         $useCaseMock->method('execute')->willThrowException(new ServerException);
         $this->instance(UpdateTask::class, $useCaseMock);
 
-        $response = $this->put('/tasks/1', [
+        $response = $this->put("/tasks/{$task->id}", [
             'title' => 'title',
             'description' => 'description',
             'status' => 'pendent',

@@ -7,6 +7,7 @@ Este repostório é a implementação do Teste prático para Senior PHP na IP4Y.
 - [Quem sou eu?](#quem-sou-eu)
 - [Respostas das questões teóricas](#respostas-das-questões-teóricas)
 - [Arquitetura](#arquitetura)
+- - [Clean Architecture](#clean-architecture)
 - - [SOLID](#solid)
 - - [CQS](#cqs)
 - - [Repository](#repository)
@@ -157,6 +158,7 @@ Eu sempre penso em transações como um grupo de comandos que devem ser executad
 
 
 # Arquitetura
+## Clean Architecture
 Este projeto foi desenvolvido com base na arquitetura de software chamada **Clean Architecture**. É claro que utilizar Clean Architecture para uma aplicação tão simples é um baita de um "Overengineering", mas eu o fiz para efeitos de demonstração de conhecimento.
 ![enter image description here](https://blog.cleancoder.com/uncle-bob/images/2012-08-13-the-clean-architecture/CleanArchitecture.jpg)
 

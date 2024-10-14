@@ -82,6 +82,8 @@ npm run test
 - [Delete Task HTTP Request](docs/delete-task-http-request.jpg)
 - [List Task HTTP Request](docs/list-task-http-request.jpg)
 
+**Eu escrevi diversos comentários sobre minhas decisões no código. Todos iniciam com o termo "CANDIDATO:", se caso o leitor quiser encontrá-los rapidamente com a ajuda de uma IDE.**
+
 # Quem sou eu?
 
 Meu nome é Caio Lesnock, e atualmente eu sou o lider da equipe de desenvolvimento da empresa Metadil. 
@@ -186,14 +188,3 @@ Esta separação faz com que muitos bugs sejam evitados, e o software se torne a
 Ainda falando sobre CQS, é importante notar que, os *comandos* devem ser tratados com muito mais "cuidado" pelo sistema, isto é, os *comandos* devem passar pela camada de domínio, pois é lá que as alterações de estado da aplicação são de fato validadas. As *queries* no entanto, não precisam passar pela camada de domínio, pois são responsáveis apenas por retornar dados que já foram outrora validados pelo sistema.
 É nesse ponto que se torna interessante nós falarmos do padrão **repository**. 
 Este padrão é muito mal interpretado pelos desenvolvedores, que muitas das vezes acreditam que este padrão serve apenas para criar uma abstração sobre a camada de banco de dados. Isso não poderia estar mais errado... O repositório deve ser considerado como uma *coleção* de entidades ou agregados que são gravados e consultados pelo sistema, ou seja, o repositório existe para interagir com a **camada de domínio**. Sendo assim, *Use Cases* de consulta, não precisam utilizar um repositório para consultar os dados. Isso apenas deixaria o sistema mais lento sem benefício algum. Por esse motivo, o leitor poderá perceber que nos *Use Cases* de consulta (como *GetProject*, por exemplo) eu não utilizei o ProjectRepository, mas sim o model Project do próprio Laravel. 
-
-# Disclaimer
-
-Agradeço à equipe da IP4Y e da Projeto 22 por me permitirem participar deste processo seletivo. Recebam meus sinceros agradecimentos.
-Eu gostaria de informar que atualmente eu trabalho em período integral presencialmente, e possuo um filhinho de 1 ano de idade, e por esse motivo, o prazo foi um tanto quanto apertado para mim. Por essa razão, eu não consegui completar todos os testes automatizados que eu julgava necessário no frontend e alguns poucos no backend. Eu também gostaria de ter criado testes end-to-end utilizando Cypress, mas infelizmente não tive tempo suficiente.
-Acredito que consegui cumprir todos os requisitos do projeto, com exceção de um único ponto, que é o de filtrar as tarefas antes de exportar o pdf/excel.
-
-**Eu escrevi diversos comentários sobre minhas decisões no código. Todos iniciam com o termo "CANDIDATO:", se caso o leitor quiser encontrá-los rapidamente com a ajuda de uma IDE.
-Qualquer dúvida, estou à disposição para esclarecimentos.**
-
-
